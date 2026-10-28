@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Crosshair, RotateCcw, Info } from 'lucide-react';
 
-export default function Scene3D({ scene, discovered, onDiscover }) {
+export default function Scene3D({ scene, image, caseTitle, discovered, onDiscover }) {
   const mountRef = useRef(null);
   const [selected, setSelected] = useState(null);
   const [error, setError] = useState('');
@@ -158,6 +158,27 @@ export default function Scene3D({ scene, discovered, onDiscover }) {
   }, [scene, onDiscover]);
 
   return (
+    <section className="scene-investigation">
+      <div className="scene-visual-brief">
+        <img src={image} alt={`Imagen del caso: ${caseTitle || scene.title}`} />
+        <div className="scene-visual-copy">
+          <span className="eyebrow">INSPECCIÓN VISUAL DEL CASO</span>
+          <h3>{caseTitle || scene.title}</h3>
+          <p>Explora los puntos de interés. Cada hallazgo abre una nota de inspección y queda registrado en tu progreso.</p>
+          <div className="scene-progress-line"><span style={{width:`${Math.round((discovered.length / Math.max(scene.hotspots.length,1))*100)}%`}} /></div>
+          <small>{discovered.length} DE {scene.hotspots.length} INDICIOS EXPLORADOS</small>
+        </div>
+      </div>
+      <div className="scene-clue-gallery">
+        {scene.hotspots.map((spot,i)=>(
+          <button key={spot.id} className={`scene-clue-card ${selected?.id===spot.id?'active':''} ${discovered.includes(spot.id)?'found':''}`} onClick={()=>{setSelected(spot);onDiscover(spot);}}>
+            <span className="scene-clue-number">{discovered.includes(spot.id)?'✓':String(i+1).padStart(2,'0')}</span>
+            <span className="scene-clue-mark" style={{background:spot.color}} />
+            <strong>{spot.label}</strong>
+            <small>{discovered.includes(spot.id)?'HALLAZGO REGISTRADO':'PULSA PARA INSPECCIONAR'}</small>
+          </button>
+        ))}
+      </div>
     <div className="scene-layout">
       <div className="scene-viewport" ref={mountRef}>
         {error && <div className="scene-fallback"><Info size={18}/>{error}</div>}
@@ -179,5 +200,6 @@ export default function Scene3D({ scene, discovered, onDiscover }) {
         {selected ? <div className="evidence-note"><span className="eyebrow">NOTA DE INSPECCIÓN</span><h4>{selected.label}</h4><p>{selected.detail}</p></div> : <div className="scene-hint"><Info size={16}/><span>Selecciona un marcador en la escena o en la lista para abrir una pista.</span></div>}
       </div>
     </div>
+    </section>
   );
 }
