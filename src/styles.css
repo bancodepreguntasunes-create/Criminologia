@@ -150,3 +150,47 @@ input,textarea,select{accent-color:var(--mt-cyan)}
 @keyframes mt-logo-float{0%,100%{transform:translateY(0);box-shadow:0 0 0 8px rgba(53,217,255,.035),0 0 44px rgba(53,217,255,.13),inset -14px 0 25px rgba(255,69,104,.11)}50%{transform:translateY(-5px);box-shadow:0 0 0 12px rgba(53,217,255,.025),0 0 58px rgba(255,69,104,.13),inset -14px 0 25px rgba(255,69,104,.13)}}
 @media(max-width:800px){.hero-brand-art{min-height:340px;padding:24px 12px 24px}.hero-brand-emblem{width:125px;height:125px}.hero-brand-emblem svg{width:160px;height:160px}.hero-brand-wordmark{font-size:29px}.hero-brand-tagline{font-size:8px;letter-spacing:1.2px;gap:7px}.hero-disciplines span{font-size:6px;letter-spacing:0;padding:0 2px}.hero-disciplines svg{width:22px;height:22px}.hero-brand-art .hero-art-label{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.hero-brand-emblem{animation:none}}
+
+
+/* MINDTRACE visual identity across active case / interview simulation */
+.case-page{background:radial-gradient(ellipse at 88% 5%,rgba(57,120,255,.07),transparent 32%),radial-gradient(ellipse at 4% 45%,rgba(255,69,104,.045),transparent 30%)}
+.case-header-mark{background:linear-gradient(145deg,rgba(53,217,255,.1),rgba(255,69,104,.1));border:1px solid rgba(53,217,255,.35);border-radius:14px;box-shadow:0 0 28px rgba(53,217,255,.06)}
+.case-hero-image{border-color:rgba(53,217,255,.38);box-shadow:0 12px 32px rgba(0,0,0,.22)}
+.case-hero-caption{background:linear-gradient(90deg,rgba(5,10,22,.96),rgba(8,14,29,.78) 65%,rgba(24,10,23,.7))}
+.case-hero-caption>span,.case-toolbar .difficulty-select label{color:#35d9ff}
+.case-toolbar{border-color:rgba(53,217,255,.2)}
+.case-toolbar .toolbar-location{color:#c5d7ef}
+.case-layout .panel-card{background:linear-gradient(145deg,rgba(17,27,47,.98),rgba(10,16,30,.99));border-color:rgba(67,139,209,.25);box-shadow:0 12px 34px rgba(0,0,0,.12)}
+.case-layout .panel-title .panel-icon{background:linear-gradient(135deg,rgba(53,217,255,.16),rgba(57,120,255,.13));border:1px solid rgba(53,217,255,.18);color:#65e2ff}
+.case-layout .panel-title .panel-icon.gold{background:linear-gradient(135deg,rgba(255,189,105,.14),rgba(255,69,104,.1));border-color:rgba(255,189,105,.25);color:#ffc078}
+.case-layout .brief-card>p,.case-layout .interview-card blockquote,.case-layout .question-prompt h4,.case-layout .evidence-detail p{color:#e8f1ff}
+.case-layout .objective-box{background:linear-gradient(105deg,rgba(53,217,255,.1),rgba(57,120,255,.08));border:1px solid rgba(53,217,255,.22);border-left:2px solid #35d9ff;border-radius:8px}
+.case-layout .objective-box strong{color:#c9f5ff}
+.case-layout .objective-box p{color:#b5cce6}
+.case-layout .interview-card{position:relative;overflow:hidden}
+.case-layout .interview-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,#3978ff,#35d9ff 48%,#ff4568);opacity:.9}
+.case-layout .interview-card .progress-label{color:#35d9ff}
+.case-layout .interview-card .progress-track{background:#202b43}
+.case-layout .interview-card .progress-track span{background:linear-gradient(90deg,#3978ff,#35d9ff,#ff4568);background-size:200% 100%;animation:mt-gradient-flow 3s linear infinite}
+.case-layout .interviewee-avatar{background:linear-gradient(135deg,#123a54,#422033);border:1px solid rgba(53,217,255,.55);color:#d9f8ff;box-shadow:0 0 20px rgba(53,217,255,.1)}
+.case-layout .interviewee strong{color:#f4f8ff}
+.case-layout .interviewee small{color:#91a9ca}
+.case-layout .recording{color:#83f0c0}
+.case-layout .interview-card blockquote{background:linear-gradient(100deg,rgba(53,217,255,.1),rgba(57,120,255,.07),rgba(255,69,104,.055));border-left:2px solid #35d9ff;border-radius:0 9px 9px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.case-layout .question-prompt .prompt-index{color:#55cfff}
+.case-layout .answer-option{background:linear-gradient(100deg,#14253a,#111b2d);border-color:rgba(104,155,209,.25);color:#e4efff}
+.case-layout .answer-option .answer-letter{background:rgba(53,217,255,.09);border-color:rgba(53,217,255,.4);color:#9beeff}
+.case-layout .answer-option:hover:not(:disabled){background:linear-gradient(100deg,rgba(53,217,255,.13),rgba(57,120,255,.1));border-color:#35d9ff;box-shadow:0 0 18px rgba(53,217,255,.07)}
+.case-layout .answer-option.chosen{border-color:#35d9ff;background:rgba(53,217,255,.12)}
+.case-layout .evidence-item{background:linear-gradient(100deg,#14243a,#111b2c);border-color:rgba(104,155,209,.2);color:#e4efff}
+.case-layout .evidence-item:hover,.case-layout .evidence-item.active{border-color:rgba(53,217,255,.58);background:linear-gradient(100deg,rgba(53,217,255,.11),rgba(255,69,104,.055))}
+.case-layout .evidence-type{border:1px solid rgba(53,217,255,.25)}
+.case-layout .evidence-detail{background:linear-gradient(145deg,rgba(53,217,255,.07),rgba(255,69,104,.04));border-color:rgba(53,217,255,.2)}
+.case-layout .evidence-detail>div{color:#b9d5ee}
+.case-layout .tag-list span{background:rgba(57,120,255,.13);border-color:rgba(53,217,255,.2);color:#c2e4ff}
+.case-layout .case-mini-stat{border-color:rgba(91,166,255,.2)}
+.case-layout .case-mini-stat span{color:#8faed4}
+.case-layout .case-mini-stat strong{color:#f3f7ff}
+.case-bottom-actions{animation:mt-text-in .45s ease both}
+.case-layout .feedback-box{animation:mt-card-enter .35s ease both}
+@media(max-width:700px){.case-layout .interview-card blockquote{font-size:13px;line-height:1.7}.case-layout .answer-option{padding:10px}.case-layout .question-prompt h4{font-size:16px;line-height:1.55}}
