@@ -194,3 +194,45 @@ input,textarea,select{accent-color:var(--mt-cyan)}
 .case-bottom-actions{animation:mt-text-in .45s ease both}
 .case-layout .feedback-box{animation:mt-card-enter .35s ease both}
 @media(max-width:700px){.case-layout .interview-card blockquote{font-size:13px;line-height:1.7}.case-layout .answer-option{padding:10px}.case-layout .question-prompt h4{font-size:16px;line-height:1.55}}
+
+
+/* GLOBAL MINDTRACE BRAND PALETTE: obsidian navy + electric cyan + crimson */
+:root{
+ --bg:#050914;--sidebar:#080d1b;--panel:#0c1425;--panel-2:#111b30;
+ --line:rgba(53,217,255,.22);--muted:#a7b9d2;--text:#edf5ff;
+ --cyan:#35d9ff;--gold:#ff9baf;--green:#77eac1;--red:#ff4568;
+ color-scheme:dark;
+}
+html,body,#root{background:#050914;color:#edf5ff}
+body{background:radial-gradient(ellipse at 85% 0%,rgba(28,104,176,.12),transparent 32%),radial-gradient(ellipse at 10% 80%,rgba(255,69,104,.045),transparent 30%),#050914}
+.sidebar{background:linear-gradient(180deg,#080e1d 0%,#080c18 72%,#0a0b17 100%);border-right-color:rgba(53,217,255,.25)}
+.brand-mark{background:linear-gradient(135deg,#071626,#171022);border:1px solid rgba(53,217,255,.55);box-shadow:0 0 0 3px rgba(53,217,255,.05),0 0 22px rgba(53,217,255,.13)}
+.brand-copy strong{background:linear-gradient(90deg,#f1f8ff 0%,#c9f5ff 48%,#ff4568 100%);background-clip:text;-webkit-background-clip:text;color:transparent}
+.mindtrace-mark{display:block;overflow:visible;filter:drop-shadow(0 0 8px rgba(53,217,255,.13));max-width:100%;height:auto}
+.nav-item{color:#a1b2cb}
+.nav-item:hover{background:linear-gradient(100deg,rgba(53,217,255,.09),rgba(255,69,104,.06));border-color:rgba(53,217,255,.25);color:#f2f8ff}
+.nav-item.active{background:linear-gradient(100deg,rgba(53,217,255,.14),rgba(57,120,255,.09) 55%,rgba(255,69,104,.1));border-color:rgba(53,217,255,.45);box-shadow:inset 3px 0 #35d9ff,0 0 20px rgba(53,217,255,.045);color:#f0f8ff}
+.nav-count{border-color:rgba(53,217,255,.32);color:#a9eaff}
+.sidebar-lab-card{background:linear-gradient(140deg,#102238 0%,#0c1628 68%,#1b101f 100%);border-color:rgba(53,217,255,.25)}
+.lab-card-icon{background:linear-gradient(135deg,rgba(53,217,255,.2),rgba(255,69,104,.16));color:#83eaff}
+.lab-card-line{background:#1a2b43}.lab-card-line span{background:linear-gradient(90deg,#3978ff,#35d9ff,#ff4568)}
+.topbar{background:rgba(7,12,25,.94);border-bottom-color:rgba(53,217,255,.19);backdrop-filter:blur(14px)}
+.main-area{background:transparent}
+.page-content{background:transparent}
+.panel-card,.stat-card,.scenario-card,.case-card,.history-card,.guide-card,.progress-card,.bank-question-card{
+ background:linear-gradient(145deg,rgba(14,24,43,.98),rgba(8,14,28,.98));
+ border-color:rgba(79,146,213,.25);
+}
+.panel-card:hover,.scenario-card:hover,.case-card:hover{border-color:rgba(53,217,255,.42)}
+button,.button-primary,.primary-button{transition:background .22s,border-color .22s,box-shadow .22s,transform .22s}
+button:focus-visible,.nav-item:focus-visible{outline:2px solid #35d9ff;outline-offset:3px}
+.button-primary,.primary-button,.btn-primary{background:linear-gradient(105deg,#35d9ff,#478eff 62%,#ff4568);border:0;color:#04101e;box-shadow:0 7px 24px rgba(53,217,255,.13)}
+.button-primary:hover,.primary-button:hover,.btn-primary:hover{filter:brightness(1.08);box-shadow:0 8px 28px rgba(53,217,255,.23);transform:translateY(-1px)}
+button:not(.nav-item):not(.icon-button):not(.answer-option):hover{border-color:rgba(53,217,255,.5)}
+.eyebrow,.nav-label,.section-kicker{color:#79dfff}
+a{color:#35d9ff}
+hr,.sidebar-divider{border-color:rgba(53,217,255,.2)}
+input,textarea,select{background:#0a1426!important;border-color:rgba(83,147,207,.32)!important;color:#eff7ff!important}
+input:focus,textarea:focus,select:focus{border-color:#35d9ff!important;box-shadow:0 0 0 3px rgba(53,217,255,.08)}
+.badge,.tag,.chip{border-color:rgba(53,217,255,.25)}
+@media(max-width:760px){.sidebar{background:linear-gradient(180deg,#080e1d,#090c18)}}
