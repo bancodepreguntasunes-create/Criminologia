@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Activity, ArrowLeft, ArrowRight, Award, BookOpen, BriefcaseBusiness, Check,
-  ChevronRight, CircleHelp, ClipboardList, Clock3, Compass, Fingerprint, FlaskConical,
+  ChevronRight, CircleHelp, ClipboardList, Clock3, Compass, FlaskConical,
   GraduationCap, Leaf, LockKeyhole, Menu, MessageSquareText, Network, RotateCcw,
   Search, ShieldCheck, Sparkles, Target, Users, X, Zap
 } from 'lucide-react';
@@ -25,6 +25,29 @@ function saveLocal(record) {
   localStorage.setItem('mindtrace-progress', JSON.stringify([record, ...old].slice(0, 30)));
 }
 function getLevel(rank) { return difficulties.find(d => d.rank === rank) || difficulties[0]; }
+
+function MindtraceMark({ size = 28 }) {
+  return (
+    <svg className="mindtrace-mark" width={size} height={size} viewBox="0 0 100 100" role="img" aria-label="MINDTRACE: cerebro y rostro de dos expresiones">
+      <defs>
+        <linearGradient id="mindtrace-blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#72e0ff"/><stop offset="100%" stopColor="#2089c8"/></linearGradient>
+        <linearGradient id="mindtrace-red" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#ff8b9b"/><stop offset="100%" stopColor="#d72e51"/></linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="46" fill="#0b1927" stroke="#35566b" strokeWidth="2"/>
+      <path d="M50 10 C28 10 16 27 16 48 C16 68 30 84 50 89 Z" fill="url(#mindtrace-blue)" opacity=".22"/>
+      <path d="M50 10 C72 10 84 27 84 48 C84 68 70 84 50 89 Z" fill="url(#mindtrace-red)" opacity=".2"/>
+      <path d="M50 12 C39 7 31 16 33 23 C23 23 20 34 26 40 C18 48 25 58 32 59 C30 70 40 78 50 78 Z" fill="none" stroke="url(#mindtrace-blue)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M38 21 C44 23 42 30 36 31 M27 40 C34 37 39 43 35 48 M32 59 C39 54 44 61 41 67 M42 16 C48 20 47 27 43 29 M40 39 C46 36 49 42 46 47 M43 57 C48 54 50 60 48 64" fill="none" stroke="url(#mindtrace-blue)" strokeWidth="2.4" strokeLinecap="round"/>
+      <path d="M50 12 C61 7 69 16 67 23 C77 23 80 34 74 40 C82 48 75 58 68 59 C70 70 60 78 50 78 Z" fill="none" stroke="url(#mindtrace-red)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M63 25 L72 29 M63 34 L74 36 M61 44 L72 45" fill="none" stroke="url(#mindtrace-red)" strokeWidth="2.5" strokeLinecap="round"/>
+      <path d="M24 52 C29 46 38 46 43 52" fill="none" stroke="#9ceaff" strokeWidth="3" strokeLinecap="round"/>
+      <path d="M57 52 L68 49" fill="none" stroke="#ff9bab" strokeWidth="3" strokeLinecap="round"/>
+      <path d="M25 63 C31 74 41 75 48 66" fill="none" stroke="#9ceaff" strokeWidth="3.2" strokeLinecap="round"/>
+      <path d="M55 66 L70 66" fill="none" stroke="#ff9bab" strokeWidth="3.2" strokeLinecap="round"/>
+      <path d="M50 12 V88" stroke="#dceaf4" strokeOpacity=".55" strokeWidth="1.5"/>
+    </svg>
+  );
+}
 
 export default function App() {
   const [page, setPage] = useState('home');
@@ -117,7 +140,7 @@ export default function App() {
     <div className="app-shell">
       <aside className={`sidebar ${showMobileMenu?'mobile-open':''}`}>
         <div className="brand-lockup" onClick={() => go('home')} role="button" tabIndex={0}>
-          <div className="brand-mark"><Fingerprint size={27}/></div>
+          <div className="brand-mark"><MindtraceMark size={32}/></div>
           <div className="brand-copy"><strong>MINDTRACE</strong><span>LABORATORIO CRIMINOLÓGICO</span></div>
           <button className="mobile-close icon-button" onClick={(e)=>{e.stopPropagation();setShowMobileMenu(false)}}><X size={18}/></button>
         </div>
@@ -155,7 +178,7 @@ export default function App() {
         {page==='home' && <section className="page-content">
           <div className="welcome-row">
             <div><div className="eyebrow"><Sparkles size={14}/> CENTRO DE ANÁLISIS CONDUCTUAL</div><h1>Piensa como investigador<span>.</span></h1><p className="lead">Cada detalle cuenta. Construye hipótesis, contrasta evidencias y aprende a leer un caso sin precipitar conclusiones.</p></div>
-            <div className="welcome-stamp"><Fingerprint size={38}/><span>CASE FILE<br/><b>MT–2026</b></span></div>
+            <div className="welcome-stamp"><MindtraceMark size={42}/><span>CASE FILE<br/><b>MT–2026</b></span></div>
           </div>
           <div className="hero-card">
             <div className="hero-text">
@@ -167,7 +190,7 @@ export default function App() {
             </div>
             <div className="hero-art">
               <div className="hero-orbit orbit-one"/><div className="hero-orbit orbit-two"/>
-              <div className="hero-fingerprint"><Fingerprint size={176} strokeWidth={0.8}/></div>
+              <div className="hero-fingerprint"><MindtraceMark size={176}/></div>
               <div className="hero-art-label"><span className="pulse-dot"/> INVESTIGACIÓN EN CURSO</div>
               <div className="hero-art-code">EVIDENCE / 001<br/>BEHAVIORAL UNIT</div>
             </div>
@@ -203,7 +226,7 @@ export default function App() {
 
         {page==='case' && <section className="page-content case-page">
           <button className="back-link" onClick={()=>go('scenarios')}><ArrowLeft size={16}/> Volver a los casos</button>
-          <div className="case-header"><div><span className="eyebrow">EXPEDIENTE {scenario.number} / {scenario.category.toUpperCase()}</span><h1>{scenario.title}<span>.</span></h1><p>{scenario.subtitle}</p></div><div className="case-header-mark"><Fingerprint size={34}/><span>CONFIDENCIAL<br/>SIMULACIÓN</span></div></div>
+          <div className="case-header"><div><span className="eyebrow">EXPEDIENTE {scenario.number} / {scenario.category.toUpperCase()}</span><h1>{scenario.title}<span>.</span></h1><p>{scenario.subtitle}</p></div><div className="case-header-mark"><MindtraceMark size={38}/><span>CONFIDENCIAL<br/>SIMULACIÓN</span></div></div>
           <div className="case-hero-image"><img src={scenario.image} alt={`Escena visual: ${scenario.title}`} /><div className="case-hero-caption"><span>REFERENCIA VISUAL DEL EXPEDIENTE</span><strong>{scenario.title}</strong><p>Observa el entorno y contrasta cada detalle con las evidencias disponibles.</p></div></div>
           <div className="case-toolbar"><div className="toolbar-location"><span className="location-dot"/> {scenario.location}</div><div className="difficulty-select"><label htmlFor="difficulty">NIVEL DE DIFICULTAD</label><select id="difficulty" value={difficulty} onChange={e=>setDifficulty(e.target.value)}>{difficulties.map(d=><option key={d.name}>{d.name}</option>)}</select></div></div>
           <div className="case-layout">
@@ -246,14 +269,14 @@ export default function App() {
         {page==='progress' && <section className="page-content">
           <div className="page-heading"><div><span className="eyebrow">REGISTRO DE APRENDIZAJE</span><h1>Mi progreso<span>.</span></h1><p>Consulta tus partidas, puntuaciones y habilidades desarrolladas.</p></div><div className="heading-counter"><Award size={28}/><span>PERFIL<br/>INVESTIGADOR</span></div></div>
           <div className="stats-grid"><div className="stat-card"><div className="stat-top"><span>PARTIDAS GUARDADAS</span><ClipboardList size={17}/></div><strong>{history.length.toString().padStart(2,'0')}</strong><small>Este dispositivo</small></div><div className="stat-card"><div className="stat-top"><span>PUNTUACIÓN MEDIA</span><Award size={17}/></div><strong>{avgScore}<em>/100</em></strong><small>Promedio de tus casos</small></div><div className="stat-card"><div className="stat-top"><span>REGISTROS REMOTOS</span><Activity size={17}/></div><strong>{remoteHistory.length.toString().padStart(2,'0')}</strong><small>{supabaseConfigured?'Sincronizados con Supabase':'Conecta Supabase para sincronizar'}</small></div></div>
-          <div className="panel-card history-card"><div className="panel-title"><div className="panel-icon"><Clock3 size={18}/></div><div><span className="eyebrow">HISTORIAL</span><h3>Últimas investigaciones</h3></div></div>{history.length===0?<div className="empty-state"><div><ClipboardList size={26}/></div><strong>Aún no hay casos completados</strong><p>Inicia un expediente y guarda tu primer informe.</p><button className="button-primary compact" onClick={()=>go('scenarios')}>Explorar casos <ArrowRight size={15}/></button></div>:<div className="history-list">{history.map(item=><div className="history-row" key={item.id}><div className="history-icon"><Fingerprint size={18}/></div><div className="history-name"><strong>{item.scenarioTitle||scenarios.find(s=>s.id===item.scenarioId)?.title||item.scenarioId}</strong><small>{item.difficulty} · {new Date(item.completedAt).toLocaleDateString('es-ES')}</small></div><div className="history-score"><strong>{item.score}</strong><small>/100</small></div><button className="icon-button" onClick={()=>startCase(item.scenarioId)} title="Repetir caso"><RotateCcw size={16}/></button></div>)}</div>}</div>
+          <div className="panel-card history-card"><div className="panel-title"><div className="panel-icon"><Clock3 size={18}/></div><div><span className="eyebrow">HISTORIAL</span><h3>Últimas investigaciones</h3></div></div>{history.length===0?<div className="empty-state"><div><ClipboardList size={26}/></div><strong>Aún no hay casos completados</strong><p>Inicia un expediente y guarda tu primer informe.</p><button className="button-primary compact" onClick={()=>go('scenarios')}>Explorar casos <ArrowRight size={15}/></button></div>:<div className="history-list">{history.map(item=><div className="history-row" key={item.id}><div className="history-icon"><MindtraceMark size={22}/></div><div className="history-name"><strong>{item.scenarioTitle||scenarios.find(s=>s.id===item.scenarioId)?.title||item.scenarioId}</strong><small>{item.difficulty} · {new Date(item.completedAt).toLocaleDateString('es-ES')}</small></div><div className="history-score"><strong>{item.score}</strong><small>/100</small></div><button className="icon-button" onClick={()=>startCase(item.scenarioId)} title="Repetir caso"><RotateCcw size={16}/></button></div>)}</div>}</div>
           {supabaseConfigured && <div className="panel-card remote-card"><div className="panel-title"><div className="panel-icon"><ShieldCheck size={18}/></div><div><span className="eyebrow">SUPABASE</span><h3>Progreso sincronizado</h3></div><button className="text-button" onClick={()=>loadProgress().then(setRemoteHistory).catch(e=>notify(e.message))}>Actualizar <RotateCcw size={14}/></button></div>{remoteHistory.length?<div className="history-list">{remoteHistory.map(item=><div className="history-row" key={item.id}><div className="history-icon"><Activity size={18}/></div><div className="history-name"><strong>{scenarios.find(s=>s.id===item.scenario_id)?.title||item.scenario_id}</strong><small>{item.difficulty} · {new Date(item.created_at).toLocaleDateString('es-ES')}</small></div><div className="history-score"><strong>{item.score}</strong><small>/100</small></div></div>)}</div>:<p className="muted">Cuando guardes un informe autenticado, aparecerá aquí.</p>}</div>}
         </section>}
 
-        <footer className="app-footer"><div className="footer-brand"><Fingerprint size={18}/><strong>MINDTRACE</strong></div><span>ENTORNO DE APRENDIZAJE · CASOS FICTICIOS</span><button onClick={()=>setShowGuide(true)}>Acerca del laboratorio <ArrowRight size={13}/></button></footer>
+        <footer className="app-footer"><div className="footer-brand"><MindtraceMark size={22}/><strong>MINDTRACE</strong></div><span>ENTORNO DE APRENDIZAJE · CASOS FICTICIOS</span><button onClick={()=>setShowGuide(true)}>Acerca del laboratorio <ArrowRight size={13}/></button></footer>
       </main>
       {toast && <div className="toast"><Check size={16}/>{toast}</div>}
-      {showGuide && <div className="modal-backdrop" onClick={()=>setShowGuide(false)}><div className="guide-modal" onClick={e=>e.stopPropagation()}><button className="modal-close icon-button" onClick={()=>setShowGuide(false)}><X size={18}/></button><div className="guide-icon"><Fingerprint size={26}/></div><span className="eyebrow">MINDTRACE / GUÍA RÁPIDA</span><h2>Investigar es contrastar.</h2><p>Este laboratorio es una simulación académica. No representa un instrumento diagnóstico ni sustituye protocolos institucionales o asesoramiento profesional.</p><div className="guide-points"><div><Check size={16}/><span>Comienza con preguntas abiertas y evita preguntas sugestivas.</span></div><div><Check size={16}/><span>Contrasta testimonios con fuentes independientes.</span></div><div><Check size={16}/><span>Registra la incertidumbre y las hipótesis alternativas.</span></div><div><Check size={16}/><span>No interpretes nerviosismo, apariencia o antecedentes como prueba de culpabilidad.</span></div></div><div className="guide-connection"><div className={`connection-dot ${supabaseConfigured?'connected':''}`}/><div><strong>{supabaseConfigured?'Supabase detectado':'Supabase pendiente de configuración'}</strong><p>{supabaseConfigured?'La aplicación intentará sincronizar informes al guardarlos.':'Consulta README.md y supabase/schema.sql en el ZIP para conectar la base de datos.'}</p></div></div><button className="button-primary full-width" onClick={()=>setShowGuide(false)}>Entendido <Check size={16}/></button></div></div>}
+      {showGuide && <div className="modal-backdrop" onClick={()=>setShowGuide(false)}><div className="guide-modal" onClick={e=>e.stopPropagation()}><button className="modal-close icon-button" onClick={()=>setShowGuide(false)}><X size={18}/></button><div className="guide-icon"><MindtraceMark size={32}/></div><span className="eyebrow">MINDTRACE / GUÍA RÁPIDA</span><h2>Investigar es contrastar.</h2><p>Este laboratorio es una simulación académica. No representa un instrumento diagnóstico ni sustituye protocolos institucionales o asesoramiento profesional.</p><div className="guide-points"><div><Check size={16}/><span>Comienza con preguntas abiertas y evita preguntas sugestivas.</span></div><div><Check size={16}/><span>Contrasta testimonios con fuentes independientes.</span></div><div><Check size={16}/><span>Registra la incertidumbre y las hipótesis alternativas.</span></div><div><Check size={16}/><span>No interpretes nerviosismo, apariencia o antecedentes como prueba de culpabilidad.</span></div></div><div className="guide-connection"><div className={`connection-dot ${supabaseConfigured?'connected':''}`}/><div><strong>{supabaseConfigured?'Supabase detectado':'Supabase pendiente de configuración'}</strong><p>{supabaseConfigured?'La aplicación intentará sincronizar informes al guardarlos.':'Consulta README.md y supabase/schema.sql en el ZIP para conectar la base de datos.'}</p></div></div><button className="button-primary full-width" onClick={()=>setShowGuide(false)}>Entendido <Check size={16}/></button></div></div>}
     </div>
   );
 }
