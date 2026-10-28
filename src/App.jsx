@@ -230,7 +230,7 @@ export default function App() {
           <div className="page-heading scene-heading"><div><span className="eyebrow">INSPECCIÓN DIGITAL / EXPEDIENTE {scenario.number}</span><h1>Escena explorable<span>.</span></h1><p>Observa el entorno, abre los marcadores y registra qué evidencia merece corroboración.</p></div><div className="scene-score"><span>INSPECCIÓN</span><strong>{discovered.length}<small>/{scenario.scene.hotspots.length}</small></strong></div></div>
           <div className="scene-case-strip"><div className="scene-case-icon"><FlaskConical size={20}/></div><div><span className="eyebrow">{scenario.category}</span><strong>{scenario.title}</strong></div><span className="scene-strip-level">{difficulty.toUpperCase()}</span></div>
                     <div className="scene-reference-image"><img src={scenario.image} alt={`Referencia visual: ${scenario.title}`} /><div><span className="eyebrow">REFERENCIA FOTOGRÁFICA</span><strong>{scenario.title}</strong><p>Usa esta imagen como contexto visual; verifica los indicios en la escena interactiva y no des por probada una hipótesis solo por la fotografía.</p></div></div>
-          <Scene3D scene={scenario.scene} discovered={discovered} onDiscover={discover}/>
+          <Scene3D scene={scenario.scene} image={scenario.image} caseTitle={scenario.title} discovered={discovered} onDiscover={discover}/>
           <div className="scene-footer-note"><ShieldCheck size={17}/><p>Las pistas de la escena son indicios para orientar la investigación, no pruebas concluyentes. Documenta qué observaste y qué necesitarías verificar.</p><button className="button-primary compact" onClick={()=>go('case')}>Volver al caso <ArrowRight size={15}/></button></div>
         </section>}
 
