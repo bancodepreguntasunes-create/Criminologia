@@ -92,3 +92,36 @@ body,.app-shell{background:radial-gradient(ellipse at 78% -12%,rgba(57,120,255,.
 input,textarea,select{accent-color:var(--mt-cyan)}
 ::selection{background:rgba(53,217,255,.3);color:#fff}
 @media(max-width:700px){.bank-question-card{padding:18px 14px}.bank-summary>div{border-left:2px solid var(--mt-cyan)}}
+
+
+/* Cinematic MINDTRACE question bank — portraits, neon HUD and restrained motion */
+.bank-question-card{animation:mt-card-enter .48s cubic-bezier(.2,.8,.2,1) both;transform-origin:50% 10%}
+.bank-portrait-frame{height:clamp(230px,32vw,360px);position:relative;overflow:hidden;border:1px solid rgba(53,217,255,.42);border-radius:13px;margin:20px 0 22px;background:#080e1b;isolation:isolate;box-shadow:0 14px 36px rgba(0,0,0,.3),0 0 28px rgba(53,217,255,.07)}
+.bank-portrait{display:block;width:100%;height:100%;object-fit:cover;object-position:center 36%;filter:grayscale(.25) contrast(1.08) saturate(.8);animation:mt-portrait-reveal .8s ease both;transition:transform .65s cubic-bezier(.2,.7,.2,1),filter .5s}
+.bank-portrait-frame:hover .bank-portrait{transform:scale(1.035);filter:grayscale(.05) contrast(1.1) saturate(1.05)}
+.bank-portrait-vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(4,9,19,.28),transparent 40%,rgba(255,42,86,.12)),linear-gradient(0deg,rgba(5,8,18,.96),rgba(5,8,18,.04) 58%,rgba(5,8,18,.16));z-index:1}
+.bank-portrait-frame:after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(110deg,transparent 0%,rgba(53,217,255,.09) 45%,transparent 55%);transform:translateX(-110%);animation:mt-scan-sweep 5.5s ease-in-out infinite}
+.bank-portrait-hud{position:absolute;z-index:3;top:14px;left:15px;right:15px;display:flex;align-items:center;gap:8px;color:#d8f7ff;font:9px 'DM Mono',monospace;letter-spacing:1px;text-shadow:0 2px 8px #000}
+.bank-portrait-hud b{margin-left:auto;color:#ff8399;font-weight:500}
+.bank-hud-dot{width:7px;height:7px;flex-shrink:0;border-radius:50%;background:#ff4568;box-shadow:0 0 0 4px rgba(255,69,104,.16),0 0 14px #ff4568;animation:mt-pulse 1.8s ease-in-out infinite}
+.bank-portrait-caption{position:absolute;z-index:3;left:20px;right:20px;bottom:18px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.bank-portrait-caption>span{font:9px 'DM Mono',monospace;letter-spacing:1.5px;color:#35d9ff}
+.bank-portrait-caption strong{font:700 clamp(19px,2.7vw,28px) Manrope,sans-serif;letter-spacing:-.5px;color:#fff;text-shadow:0 2px 12px #000}
+.bank-portrait-caption small{max-width:600px;font-size:10px;line-height:1.6;color:#c1d0e4}
+.bank-question-card h2{animation:mt-text-in .42s .08s both}
+.bank-options .bank-option{animation:mt-option-in .35s both}
+.bank-options .bank-option:nth-child(2){animation-delay:.04s}.bank-options .bank-option:nth-child(3){animation-delay:.08s}.bank-options .bank-option:nth-child(4){animation-delay:.12s}.bank-options .bank-option:nth-child(5){animation-delay:.16s}
+.bank-topic{box-shadow:0 0 18px rgba(53,217,255,.05)}
+.bank-question-card .progress-track span{background:linear-gradient(90deg,#3978ff,#35d9ff,#ff4568);background-size:200% 100%;animation:mt-gradient-flow 3s linear infinite}
+.nav-item,.scenario-card,.panel-card,.button-primary,.button-secondary,.stat-card{transition:border-color .22s,box-shadow .22s,background-color .22s,transform .22s}
+.brand-mark{animation:mt-logo-glow 4s ease-in-out infinite}
+@keyframes mt-card-enter{from{opacity:0;transform:translateY(14px) scale(.992);filter:blur(3px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes mt-portrait-reveal{from{opacity:.2;transform:scale(1.045)}to{opacity:1;transform:scale(1)}}
+@keyframes mt-scan-sweep{0%,18%{transform:translateX(-110%)}55%,100%{transform:translateX(110%)}}
+@keyframes mt-pulse{0%,100%{opacity:1;box-shadow:0 0 0 4px rgba(255,69,104,.16),0 0 14px #ff4568}50%{opacity:.58;box-shadow:0 0 0 7px rgba(255,69,104,.05),0 0 5px #ff4568}}
+@keyframes mt-text-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes mt-option-in{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes mt-gradient-flow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes mt-logo-glow{0%,100%{box-shadow:0 0 0 rgba(53,217,255,0)}50%{box-shadow:0 0 22px rgba(53,217,255,.13)}}
+@media(max-width:600px){.bank-portrait-frame{height:245px;margin:16px 0 18px}.bank-portrait-hud{top:11px;left:11px;right:11px;font-size:8px;letter-spacing:.5px}.bank-portrait-caption{left:14px;right:14px;bottom:13px}.bank-portrait-caption small{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
