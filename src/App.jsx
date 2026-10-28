@@ -40,6 +40,12 @@ function saveLocal(record) {
 }
 function getLevel(rank) { return difficulties.find(d => d.rank === rank) || difficulties[0]; }
 
+function BrainCircuitIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a3 3 0 0 0-5.7 1.2A3.5 3.5 0 0 0 4 11a3.5 3.5 0 0 0 2.3 6.1A3 3 0 0 0 12 19V4Zm0 0a3 3 0 0 1 5.7 1.2A3.5 3.5 0 0 1 20 11a3.5 3.5 0 0 1-2.3 6.1A3 3 0 0 1 12 19M7 8l2 2m-3 4 3-1m8-5-2 2m3 4-3-1M12 7v10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+function ScaleIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17M6 6h12M4 6l-3 7h6L4 6Zm16 0-3 7h6l-3-7ZM8 21h8" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+function ScanIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-4 0-7 3-7 7v4m3-8c-1 1-1 2-1 4v4m5-8c2 1 3 3 3 5v4m-6-9v7c0 3-1 5-3 6m6-11v7c0 2 1 3 2 4m-6-5c0 2-1 4-2 5m8-5c0 2 1 3 2 4M12 2c5 0 9 4 9 9v2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>}
+function DnaIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3c12 4 0 14 12 18M18 3C6 7 18 17 6 21M8 6h8M7 10h10M7 14h10M8 18h8" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>}
+function PsychologyIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 5c0 5 3 6 5 6m5-6c0 5-3 6-5 6M5 8c0 5 3 7 7 7m7-7c0 5-3 7-7 7M8 21h8" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>}
+
 function MindtraceMark({ size = 28 }) {
   return (
     <svg className="mindtrace-mark" width={size} height={size} viewBox="0 0 100 100" role="img" aria-label="MINDTRACE: cerebro y rostro de dos expresiones">
@@ -202,11 +208,17 @@ export default function App() {
               <div className="hero-meta"><span><Clock3 size={15}/> 12–18 MIN</span><span><Target size={15}/> NIVEL DIFÍCIL</span></div>
               <button className="button-primary" onClick={()=>startCase('testimonial')}>Abrir expediente <ArrowRight size={17}/></button>
             </div>
-            <div className="hero-art">
+            <div className="hero-art hero-brand-art">
+              <div className="hero-art-code">MINDTRACE / FORENSIC LAB<br/>EVIDENCE UNIT · 001</div>
               <div className="hero-orbit orbit-one"/><div className="hero-orbit orbit-two"/>
-              <div className="hero-fingerprint"><MindtraceMark size={176}/></div>
-              <div className="hero-art-label"><span className="pulse-dot"/> INVESTIGACIÓN EN CURSO</div>
-              <div className="hero-art-code">EVIDENCE / 001<br/>BEHAVIORAL UNIT</div>
+              <div className="hero-fingerprint hero-brand-emblem"><MindtraceMark size={210}/></div>
+              <div className="hero-brand-wordmark"><span>MIND</span><b>TRACE</b></div>
+              <div className="hero-brand-tagline">PIENSA <i/> ANALIZA <i/> DESCUBRE</div>
+              <div className="hero-brand-rule"/>
+              <div className="hero-disciplines">
+                <span><BrainCircuitIcon/>CRIMINOLOGÍA</span><span><ScaleIcon/>DERECHO PENAL</span><span><ScanIcon/>CRIMINALÍSTICA</span><span><DnaIcon/>ANTROPOLOGÍA</span><span><PsychologyIcon/>PSICOLOGÍA FORENSE</span>
+              </div>
+              <div className="hero-art-label"><span className="pulse-dot"/> LABORATORIO DE ANÁLISIS ACTIVO</div>
             </div>
           </div>
           <div className="section-heading"><div><span className="eyebrow">TU ESPACIO DE TRABAJO</span><h2>Panel de rendimiento</h2></div><button className="text-button" onClick={()=>go('progress')}>Ver progreso <ArrowRight size={15}/></button></div>
