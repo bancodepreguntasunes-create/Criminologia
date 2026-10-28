@@ -266,27 +266,38 @@ export default function App() {
           <div className="bottom-note"><ShieldCheck size={18}/><p><strong>Nota jurídica y clínica:</strong> las preguntas son material académico, no asesoría legal ni herramienta diagnóstica. El COPP regula el procedimiento penal; los delitos y las penas deben contrastarse con el Código Penal y las leyes especiales vigentes.</p></div>
         </section>}
 
-        {page==='case' && <section className="page-content case-page">
-          <button className="back-link" onClick={()=>go('scenarios')}><ArrowLeft size={16}/> Volver a los casos</button>
-          <div className="case-header"><div><span className="eyebrow">EXPEDIENTE {scenario.number} / {scenario.category.toUpperCase()}</span><h1>{scenario.title}<span>.</span></h1><p>{scenario.subtitle}</p></div><div className="case-header-mark"><MindtraceMark size={38}/><span>CONFIDENCIAL<br/>SIMULACIÓN</span></div></div>
-          <div className="case-hero-image"><img src={scenario.image} alt={`Escena visual: ${scenario.title}`} /><div className="case-hero-caption"><span>REFERENCIA VISUAL DEL EXPEDIENTE</span><strong>{scenario.title}</strong><p>Observa el entorno y contrasta cada detalle con las evidencias disponibles.</p></div></div>
-          <div className="case-toolbar"><div className="toolbar-location"><span className="location-dot"/> {scenario.location}</div><div className="difficulty-select"><label htmlFor="difficulty">NIVEL DE DIFICULTAD</label><select id="difficulty" value={difficulty} onChange={e=>setDifficulty(e.target.value)}>{difficulties.map(d=><option key={d.name}>{d.name}</option>)}</select></div></div>
-          <div className="case-layout">
-            <div className="case-main-column">
-              <div className="panel-card brief-card"><div className="panel-title"><div className="panel-icon"><BookOpen size={18}/></div><div><span className="eyebrow">RESUMEN DEL CASO</span><h3>Antecedentes conocidos</h3></div></div><p>{scenario.brief}</p><div className="objective-box"><Target size={18}/><div><strong>Objetivo de aprendizaje</strong><p>{scenario.objective}</p></div></div></div>
-              <div className="panel-card interview-card"><div className="interview-top"><div className="panel-title"><div className="panel-icon gold"><MessageSquareText size={18}/></div><div><span className="eyebrow">ENTREVISTA {String(questionIndex+1).padStart(2,'0')} / {scenario.questions.length}</span><h3>Decisión del investigador</h3></div></div><span className="progress-label">{Math.round(((questionIndex+1)/scenario.questions.length)*100)}%</span></div><div className="progress-track"><span style={{width:`${((questionIndex+1)/scenario.questions.length)*100}%`}}/></div>
-                <div className="interviewee"><div className="interviewee-avatar">{scenario.interviewee.name.split(' ').map(w=>w[0]).slice(0,2).join('')}</div><div><strong>{scenario.interviewee.name}</strong><small>{scenario.interviewee.role} · ENTREVISTADO/A</small></div><span className="recording"><i/> EN SESIÓN</span></div>
-                <blockquote>“{scenario.interviewee.quote}”</blockquote>
-                <div className="question-prompt"><span className="prompt-index">PREGUNTA DE ANÁLISIS</span><h4>{question.prompt}</h4></div>
-                <div className="answer-list">{question.options.map((o,i)=><button key={o.text} disabled={!!feedback} className={`answer-option ${feedback===o?'chosen':''}`} onClick={()=>chooseOption(o)}><span className="answer-letter">{String.fromCharCode(65+i)}</span><span>{o.text}</span><ChevronRight size={17}/></button>)}</div>
-                {feedback && <div className={`feedback-box ${feedback.score>=8?'good':feedback.score<=2?'poor':'mid'}`}><div className="feedback-icon">{feedback.score>=8?<Check size={18}/>:<InfoIcon/>}</div><div><strong>{feedback.score>=8?'Buen criterio':feedback.score<=2?'Revisa tu enfoque':'Una alternativa a considerar'} · +{feedback.score}/10</strong><p>{feedback.feedback}</p><small>PRINCIPIO: {feedback.principle.toUpperCase()}</small></div><button className="button-primary compact" onClick={nextQuestion}>{questionIndex+1<scenario.questions.length?'Siguiente decisión':'Ver informe'} <ArrowRight size={15}/></button></div>}
+        {page==='case' && <section className="page-content case-page forensic-simulation">
+          <div className="sim-terminal-bar">
+            <div className="sim-case-id"><span className="sim-live-dot"/><div><small>EXPEDIENTE #{scenario.number}</small><strong>{scenario.title}</strong></div></div>
+            <div className="sim-terminal-meta"><span>ÁREA <b>{scenario.category.toUpperCase()}</b></span><span>FASE <b>ANÁLISIS DE EVIDENCIA</b></span></div>
+            <div className="sim-progress"><div><small>PROGRESO DEL CASO</small><strong>{questionIndex+1} / {scenario.questions.length}</strong></div><div className="sim-progress-track"><span style={{width:`${((questionIndex+1)/scenario.questions.length)*100}%`}}/></div></div>
+            <button className="sim-exit" onClick={()=>go('scenarios')}><ArrowLeft size={15}/> SALIR</button>
+          </div>
+          <div className="sim-split-layout">
+            <section className="sim-visual-column">
+              <div className="sim-cctv-frame">
+                <div className="sim-cctv-heading"><span><span className="sim-record-dot"/> CÁMARA DE REFERENCIA · {scenario.location.toUpperCase()}</span><b>MT-CAM-{scenario.number}</b></div>
+                <div className="sim-cctv-image"><img src={scenario.image} alt={`Escena de referencia del caso ${scenario.title}`}/><div className="sim-scanlines"/><div className="sim-crosshair sim-crosshair-one"/><div className="sim-crosshair sim-crosshair-two"/><div className="sim-corner sim-corner-tl"/><div className="sim-corner sim-corner-tr"/><div className="sim-corner sim-corner-bl"/><div className="sim-corner sim-corner-br"/><div className="sim-image-status"><span>SEÑAL VISUAL</span><strong>REFERENCIA ACADÉMICA</strong></div><div className="sim-image-timestamp">MINDTRACE // FORENSIC VIEW</div></div>
+                <div className="sim-image-caption"><span className="sim-blue-pip"/> <span>{scenario.title}</span><small>OBSERVA · CONTRASTA · VERIFICA</small></div>
               </div>
-              <div className="case-bottom-actions"><button className="button-secondary" onClick={()=>go('scene')}><FlaskConical size={16}/> Explorar escena 3D <span className="mini-badge">INTERACTIVA</span></button><button className="text-button" onClick={()=>setShowGuide(true)}>Guía del investigador <CircleHelp size={15}/></button></div>
-            </div>
-            <aside className="case-side-column">
-              <div className="panel-card evidence-card"><div className="panel-title"><div className="panel-icon"><Search size={17}/></div><div><span className="eyebrow">MATERIAL DISPONIBLE</span><h3>Tablero de evidencias</h3></div></div><p className="muted small">Abre cada elemento y revisa sus límites.</p><div className="evidence-list">{scenario.evidence.map((e,i)=><button key={e.id} className={`evidence-item ${activeEvidence?.id===e.id?'active':''}`} onClick={()=>setActiveEvidence(e)}><span className={`evidence-type type-${i}`}>{String(i+1).padStart(2,'0')}</span><span><strong>{e.title}</strong><small>{e.kind}</small></span><ChevronRight size={15}/></button>)}</div>{activeEvidence&&<div className="evidence-detail"><span className="eyebrow">LECTURA CRÍTICA</span><h4>{activeEvidence.title}</h4><p>{activeEvidence.detail}</p><div><InfoIcon/><span>{activeEvidence.clue}</span></div></div>}</div>
-              <div className="panel-card case-tags-card"><span className="eyebrow">COMPETENCIAS</span><div className="tag-list">{scenario.tags.map(t=><span key={t}>{t}</span>)}</div><div className="case-mini-stat"><span>TIEMPO ESTIMADO</span><strong>{scenario.duration}</strong></div><div className="case-mini-stat"><span>PISTAS 3D EXPLORADAS</span><strong>{discovered.length} / {scenario.scene.hotspots.length}</strong></div></div>
-            </aside>
+              <div className="sim-evidence-panel">
+                <div className="sim-evidence-heading"><div><span className="eyebrow">ARCHIVO DEL CASO</span><h3>Material de evidencia</h3></div><span>{scenario.evidence.length.toString().padStart(2,'0')} REGISTROS</span></div>
+                <div className="sim-evidence-grid">{scenario.evidence.map((e,i)=><button key={e.id} className={`sim-evidence-tile ${activeEvidence?.id===e.id?'selected':''}`} onClick={()=>setActiveEvidence(e)}><span className="sim-evidence-index">{String(i+1).padStart(2,'0')}</span><span className="sim-evidence-tile-icon">{i===0?<ClipboardList size={20}/>:i===1?<Search size={20}/>:<Clock3 size={20}/>}</span><strong>{e.title}</strong><small>{e.kind}</small></button>)}</div>
+                {activeEvidence&&<div className="sim-evidence-detail"><div><span className="eyebrow">LECTURA CRÍTICA · {activeEvidence.kind.toUpperCase()}</span><strong>{activeEvidence.title}</strong><p>{activeEvidence.detail}</p><small><ShieldCheck size={13}/>{activeEvidence.clue}</small></div></div>}
+              </div>
+              <div className="sim-case-note"><ShieldCheck size={16}/><p>{scenario.objective}</p></div>
+            </section>
+            <section className="sim-question-column">
+              <div className="sim-question-top"><span className="eyebrow"><Activity size={13}/> SIMULACIÓN ACTIVA / PREGUNTA {String(questionIndex+1).padStart(2,'0')}</span><span className="sim-difficulty">{difficulty.toUpperCase()}</span></div>
+              <div className="sim-question-progress"><span style={{width:`${((questionIndex+1)/scenario.questions.length)*100}%`}}/></div>
+              <div className="sim-discipline"><span className="sim-discipline-icon"><BrainCircuitIcon/></span><div><small>ÁREA DE INVESTIGACIÓN</small><strong>{scenario.category}</strong></div></div>
+              <h1 className="sim-question-title">{question.prompt}<span>?</span></h1>
+              <p className="sim-question-instruction">Analiza el expediente y selecciona la decisión mejor respaldada por la evidencia disponible. Evita dar por probada una hipótesis sin corroboración.</p>
+              <div className="sim-answer-list">{question.options.map((o,i)=><button key={o.text} disabled={!!feedback} className={`sim-answer-option ${feedback===o?'chosen':''}`} onClick={()=>chooseOption(o)}><span className="sim-answer-letter">{String.fromCharCode(65+i)}</span><span className="sim-answer-text">{o.text}</span><ChevronRight size={17}/></button>)}</div>
+              {feedback && <div className={`sim-feedback ${feedback.score>=8?'good':feedback.score<=2?'poor':'mid'}`}><div className="sim-feedback-heading"><span>{feedback.score>=8?<Check size={17}/>:<CircleHelp size={17}/>}</span><div><strong>{feedback.score>=8?'ANÁLISIS CONSISTENTE':feedback.score<=2?'REQUIERE REVISIÓN':'ALTERNATIVA A CONSIDERAR'}</strong><small>CRITERIO OBTENIDO: +{feedback.score}/10</small></div></div><p>{feedback.feedback}</p><small>PRINCIPIO: {feedback.principle.toUpperCase()}</small><button className="button-primary compact" onClick={nextQuestion}>{questionIndex+1<scenario.questions.length?'SIGUIENTE PREGUNTA':'VER INFORME'} <ArrowRight size={15}/></button></div>}
+              <div className="sim-question-footer"><button className="button-secondary" onClick={()=>go('scenarios')}><ArrowLeft size={15}/> VOLVER A CASOS</button><button className="sim-scene-link" onClick={()=>go('scene')}><FlaskConical size={15}/> EXPLORAR ESCENA 3D <ArrowRight size={15}/></button></div>
+              <div className="sim-ethics-note"><LockKeyhole size={14}/><span>ENTORNO EDUCATIVO · Las evidencias orientan hipótesis; no establecen culpabilidad por sí solas.</span></div>
+            </section>
           </div>
         </section>}
 
