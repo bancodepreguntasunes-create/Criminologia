@@ -125,3 +125,28 @@ input,textarea,select{accent-color:var(--mt-cyan)}
 @keyframes mt-logo-glow{0%,100%{box-shadow:0 0 0 rgba(53,217,255,0)}50%{box-shadow:0 0 22px rgba(53,217,255,.13)}}
 @media(max-width:600px){.bank-portrait-frame{height:245px;margin:16px 0 18px}.bank-portrait-hud{top:11px;left:11px;right:11px;font-size:8px;letter-spacing:.5px}.bank-portrait-caption{left:14px;right:14px;bottom:13px}.bank-portrait-caption small{font-size:9px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+
+/* Brand-poster composition for the MINDTRACE home dashboard */
+.hero-brand-art{background:radial-gradient(ellipse at 50% 28%,rgba(28,119,190,.2),transparent 36%),radial-gradient(ellipse at 76% 50%,rgba(255,40,82,.12),transparent 38%),linear-gradient(145deg,#050914 0%,#080d1b 55%,#110a16 100%)!important;grid-template-rows:1fr auto auto auto auto;align-content:center;padding:26px 22px 22px;min-height:350px}
+.hero-brand-art:before{background-image:linear-gradient(rgba(77,164,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(77,164,255,.055) 1px,transparent 1px);background-size:25px 25px;mask-image:linear-gradient(180deg,transparent,#000 20%,#000 82%,transparent)}
+.hero-brand-art:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(5,9,20,.18),transparent 40%,rgba(255,43,81,.05))}
+.hero-brand-art .hero-orbit{border-color:rgba(53,217,255,.23);width:230px;height:230px}
+.hero-brand-art .orbit-two{width:270px;height:200px;border-color:rgba(255,69,104,.22);transform:rotate(-31deg)}
+.hero-brand-emblem{width:154px;height:154px;display:grid;place-items:center;border:1px solid rgba(53,217,255,.42);border-radius:50%;background:radial-gradient(circle,rgba(53,217,255,.15),rgba(8,15,30,.95) 67%);box-shadow:0 0 0 8px rgba(53,217,255,.035),0 0 44px rgba(53,217,255,.13),inset -14px 0 25px rgba(255,69,104,.11);animation:mt-logo-float 5s ease-in-out infinite}
+.hero-brand-emblem svg{filter:drop-shadow(0 0 9px rgba(53,217,255,.28))}
+.hero-brand-wordmark{position:relative;z-index:2;margin-top:10px;font:800 clamp(28px,3.5vw,44px)/1 Manrope,sans-serif;letter-spacing:2px;text-align:center;text-shadow:0 0 25px rgba(53,217,255,.08)}
+.hero-brand-wordmark span{color:#e9f4ff}
+.hero-brand-wordmark b{font-weight:800;color:#ff4568}
+.hero-brand-tagline{position:relative;z-index:2;display:flex;justify-content:center;align-items:center;gap:10px;margin-top:10px;color:#d6e6f6;font:9px 'DM Mono',monospace;letter-spacing:2.2px}
+.hero-brand-tagline i{width:4px;height:4px;border-radius:50%;background:#35d9ff;box-shadow:0 0 8px #35d9ff}
+.hero-brand-rule{position:relative;z-index:2;width:58%;height:2px;margin:15px auto 14px;background:linear-gradient(90deg,#35d9ff 0%,#35d9ff 44%,#ff9aaa 57%,#ff4568 100%);border-radius:3px;box-shadow:0 0 12px rgba(53,217,255,.2)}
+.hero-disciplines{position:relative;z-index:2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%;margin-bottom:22px}
+.hero-disciplines span{display:flex;min-width:0;align-items:center;justify-content:flex-start;flex-direction:column;gap:7px;padding:0 5px;color:#bfd8ef;font:7px/1.5 'DM Mono',monospace;letter-spacing:.55px;text-align:center}
+.hero-disciplines span+span{border-left:1px solid rgba(53,217,255,.35)}
+.hero-disciplines svg{width:26px;height:26px;color:#c5e4fa;filter:drop-shadow(0 0 6px rgba(53,217,255,.15))}
+.hero-brand-art .hero-art-label{left:20px;bottom:10px;font-size:8px;color:#9ec5df}
+.hero-brand-art .hero-art-code{top:12px;right:14px;color:#86b7dc;font-size:8px;line-height:1.7;letter-spacing:.8px}
+@keyframes mt-logo-float{0%,100%{transform:translateY(0);box-shadow:0 0 0 8px rgba(53,217,255,.035),0 0 44px rgba(53,217,255,.13),inset -14px 0 25px rgba(255,69,104,.11)}50%{transform:translateY(-5px);box-shadow:0 0 0 12px rgba(53,217,255,.025),0 0 58px rgba(255,69,104,.13),inset -14px 0 25px rgba(255,69,104,.13)}}
+@media(max-width:800px){.hero-brand-art{min-height:340px;padding:24px 12px 24px}.hero-brand-emblem{width:125px;height:125px}.hero-brand-emblem svg{width:160px;height:160px}.hero-brand-wordmark{font-size:29px}.hero-brand-tagline{font-size:8px;letter-spacing:1.2px;gap:7px}.hero-disciplines span{font-size:6px;letter-spacing:0;padding:0 2px}.hero-disciplines svg{width:22px;height:22px}.hero-brand-art .hero-art-label{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.hero-brand-emblem{animation:none}}
