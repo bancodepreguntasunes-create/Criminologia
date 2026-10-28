@@ -260,3 +260,57 @@ input:focus,textarea:focus,select:focus{border-color:#35d9ff!important;box-shado
 @media(max-width:1100px){.case-header-terminal{flex-wrap:wrap}.terminal-case-meta{order:3;width:100%;justify-content:flex-start}.game-split-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:14px}.game-right-panel{padding:15px}.interview-card-heading h1{font-size:24px}}
 @media(max-width:980px){.game-case-page{padding:13px 12px 20px}.game-split-layout{grid-template-columns:minmax(0,1fr);gap:15px}.game-left-panel{position:relative;top:auto}.image-viewer{aspect-ratio:1.65/1;min-height:230px}.game-right-panel{padding:17px}.interview-card-heading h1{font-size:27px}}
 @media(max-width:600px){.game-case-page{padding:10px 8px 18px}.case-header-terminal{align-items:flex-start;gap:12px;padding:12px}.terminal-case-mark{min-width:0;flex:1}.terminal-case-mark strong{font-size:13px}.terminal-exit-button{font-size:9px;padding:8px}.terminal-case-meta{gap:15px;flex-wrap:wrap}.terminal-case-meta strong{font-size:9px}.image-viewer{aspect-ratio:1.2/1;min-height:220px}.game-visual-caption{padding:13px}.game-evidence-list{padding:12px}.game-right-panel{padding:13px}.game-question-overline{font-size:8px}.interview-card-heading h1{font-size:23px}.interview-instruction,.interviewee-quote p,.answer-option-text{font-size:11px}.answer-option{grid-template-columns:33px minmax(0,1fr) 14px;gap:9px;padding:9px;min-height:58px}.answer-option-letter{width:31px;height:31px}.game-question-actions{flex-direction:column;align-items:stretch}.game-question-actions button{width:100%}}
+
+
+/* Fondo global de humo forense y superficies de cristal */
+:root{
+  --bg:#000000;
+  --sidebar:rgba(5,8,13,.85);
+  --panel:rgba(15,24,35,.6);
+  --panel-2:rgba(15,24,35,.72);
+  --line:rgba(255,255,255,.08);
+  --text:#E2E8F0;
+  --cyan:#00B4FF;
+  --red:#E61B2E;
+  color-scheme:dark;
+}
+body{
+  position:relative;
+  isolation:isolate;
+  margin:0;
+  min-width:320px;
+  color:#E2E8F0;
+  background:radial-gradient(circle at 50% 30%,rgba(10,25,40,.8) 0%,rgba(5,8,13,1) 60%,#000000 100%);
+  background-attachment:fixed;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjkyIiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoJTIzbikiIG9wYWNpdHk9Ii4xNiIvPjwvc3ZnPg==");
+  background-repeat:repeat;
+  background-size:180px 180px;
+  opacity:.12;
+  box-shadow:inset 0 0 180px 70px rgba(0,0,0,.96),inset 0 0 80px 24px rgba(0,0,0,.72);
+}
+.sidebar{
+  background:rgba(5,8,13,.85);
+  -webkit-backdrop-filter:blur(15px);
+  backdrop-filter:blur(15px);
+  border-right:1px solid rgba(0,180,255,.1);
+}
+.topbar{
+  background:rgba(5,8,13,.7);
+  -webkit-backdrop-filter:blur(15px);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(0,180,255,.1);
+}
+.panel-card,.scenario-card,.stat-card{
+  background:rgba(15,24,35,.6);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
