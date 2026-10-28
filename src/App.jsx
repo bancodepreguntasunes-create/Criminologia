@@ -204,6 +204,7 @@ export default function App() {
         {page==='case' && <section className="page-content case-page">
           <button className="back-link" onClick={()=>go('scenarios')}><ArrowLeft size={16}/> Volver a los casos</button>
           <div className="case-header"><div><span className="eyebrow">EXPEDIENTE {scenario.number} / {scenario.category.toUpperCase()}</span><h1>{scenario.title}<span>.</span></h1><p>{scenario.subtitle}</p></div><div className="case-header-mark"><Fingerprint size={34}/><span>CONFIDENCIAL<br/>SIMULACIÓN</span></div></div>
+          <div className="case-hero-image"><img src={scenario.image} alt={`Escena visual: ${scenario.title}`} /><div className="case-hero-caption"><span>REFERENCIA VISUAL DEL EXPEDIENTE</span><strong>{scenario.title}</strong><p>Observa el entorno y contrasta cada detalle con las evidencias disponibles.</p></div></div>
           <div className="case-toolbar"><div className="toolbar-location"><span className="location-dot"/> {scenario.location}</div><div className="difficulty-select"><label htmlFor="difficulty">NIVEL DE DIFICULTAD</label><select id="difficulty" value={difficulty} onChange={e=>setDifficulty(e.target.value)}>{difficulties.map(d=><option key={d.name}>{d.name}</option>)}</select></div></div>
           <div className="case-layout">
             <div className="case-main-column">
@@ -228,6 +229,7 @@ export default function App() {
           <button className="back-link" onClick={()=>go('case')}><ArrowLeft size={16}/> Volver al expediente</button>
           <div className="page-heading scene-heading"><div><span className="eyebrow">INSPECCIÓN DIGITAL / EXPEDIENTE {scenario.number}</span><h1>Escena explorable<span>.</span></h1><p>Observa el entorno, abre los marcadores y registra qué evidencia merece corroboración.</p></div><div className="scene-score"><span>INSPECCIÓN</span><strong>{discovered.length}<small>/{scenario.scene.hotspots.length}</small></strong></div></div>
           <div className="scene-case-strip"><div className="scene-case-icon"><FlaskConical size={20}/></div><div><span className="eyebrow">{scenario.category}</span><strong>{scenario.title}</strong></div><span className="scene-strip-level">{difficulty.toUpperCase()}</span></div>
+                    <div className="scene-reference-image"><img src={scenario.image} alt={`Referencia visual: ${scenario.title}`} /><div><span className="eyebrow">REFERENCIA FOTOGRÁFICA</span><strong>{scenario.title}</strong><p>Usa esta imagen como contexto visual; verifica los indicios en la escena interactiva y no des por probada una hipótesis solo por la fotografía.</p></div></div>
           <Scene3D scene={scenario.scene} discovered={discovered} onDiscover={discover}/>
           <div className="scene-footer-note"><ShieldCheck size={17}/><p>Las pistas de la escena son indicios para orientar la investigación, no pruebas concluyentes. Documenta qué observaste y qué necesitarías verificar.</p><button className="button-primary compact" onClick={()=>go('case')}>Volver al caso <ArrowRight size={15}/></button></div>
         </section>}
