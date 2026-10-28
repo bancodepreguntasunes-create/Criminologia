@@ -48,23 +48,39 @@ function PsychologyIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><pa
 
 function MindtraceMark({ size = 28 }) {
   return (
-    <svg className="mindtrace-mark" width={size} height={size} viewBox="0 0 100 100" role="img" aria-label="MINDTRACE: cerebro y rostro de dos expresiones">
+    <svg className="mindtrace-mark" width={size} height={size} viewBox="0 0 200 200" role="img" aria-label="MINDTRACE: rostro dividido y cerebro azul y rojo">
       <defs>
-        <linearGradient id="mindtrace-blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#72e0ff"/><stop offset="100%" stopColor="#2089c8"/></linearGradient>
-        <linearGradient id="mindtrace-red" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#ff8b9b"/><stop offset="100%" stopColor="#d72e51"/></linearGradient>
+        <linearGradient id="mtBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#8cecff"/><stop offset="48%" stopColor="#35d9ff"/><stop offset="100%" stopColor="#126db4"/></linearGradient>
+        <linearGradient id="mtRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#ffb0bc"/><stop offset="48%" stopColor="#ff4568"/><stop offset="100%" stopColor="#9d1237"/></linearGradient>
+        <radialGradient id="mtFaceGlow" cx="35%" cy="25%" r="85%"><stop offset="0%" stopColor="#e9faff"/><stop offset="55%" stopColor="#7acfe9"/><stop offset="100%" stopColor="#164a70"/></radialGradient>
+        <radialGradient id="mtFaceShadow" cx="70%" cy="30%" r="85%"><stop offset="0%" stopColor="#3c1425"/><stop offset="65%" stopColor="#160c19"/><stop offset="100%" stopColor="#080b16"/></radialGradient>
+        <clipPath id="mtCircleClip"><circle cx="100" cy="100" r="91"/></clipPath>
       </defs>
-      <circle cx="50" cy="50" r="46" fill="#0b1927" stroke="#35566b" strokeWidth="2"/>
-      <path d="M50 10 C28 10 16 27 16 48 C16 68 30 84 50 89 Z" fill="url(#mindtrace-blue)" opacity=".22"/>
-      <path d="M50 10 C72 10 84 27 84 48 C84 68 70 84 50 89 Z" fill="url(#mindtrace-red)" opacity=".2"/>
-      <path d="M50 12 C39 7 31 16 33 23 C23 23 20 34 26 40 C18 48 25 58 32 59 C30 70 40 78 50 78 Z" fill="none" stroke="url(#mindtrace-blue)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M38 21 C44 23 42 30 36 31 M27 40 C34 37 39 43 35 48 M32 59 C39 54 44 61 41 67 M42 16 C48 20 47 27 43 29 M40 39 C46 36 49 42 46 47 M43 57 C48 54 50 60 48 64" fill="none" stroke="url(#mindtrace-blue)" strokeWidth="2.4" strokeLinecap="round"/>
-      <path d="M50 12 C61 7 69 16 67 23 C77 23 80 34 74 40 C82 48 75 58 68 59 C70 70 60 78 50 78 Z" fill="none" stroke="url(#mindtrace-red)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M63 25 L72 29 M63 34 L74 36 M61 44 L72 45" fill="none" stroke="url(#mindtrace-red)" strokeWidth="2.5" strokeLinecap="round"/>
-      <path d="M24 52 C29 46 38 46 43 52" fill="none" stroke="#9ceaff" strokeWidth="3" strokeLinecap="round"/>
-      <path d="M57 52 L68 49" fill="none" stroke="#ff9bab" strokeWidth="3" strokeLinecap="round"/>
-      <path d="M25 63 C31 74 41 75 48 66" fill="none" stroke="#9ceaff" strokeWidth="3.2" strokeLinecap="round"/>
-      <path d="M55 66 L70 66" fill="none" stroke="#ff9bab" strokeWidth="3.2" strokeLinecap="round"/>
-      <path d="M50 12 V88" stroke="#dceaf4" strokeOpacity=".55" strokeWidth="1.5"/>
+      <circle cx="100" cy="100" r="94" fill="#050914" stroke="#17354b" strokeWidth="2"/>
+      <circle cx="100" cy="100" r="87" fill="none" stroke="url(#mtBlue)" strokeOpacity=".75" strokeWidth="1.5" strokeDasharray="45 9 18 12"/>
+      <circle cx="100" cy="100" r="81" fill="none" stroke="url(#mtRed)" strokeOpacity=".6" strokeWidth="1.5" strokeDasharray="28 11 48 9" transform="rotate(180 100 100)"/>
+      <g clipPath="url(#mtCircleClip)">
+        <path d="M100 26 C77 19 53 34 43 57 C29 83 34 122 49 147 C61 168 80 181 100 185Z" fill="url(#mtFaceGlow)"/>
+        <path d="M100 26 C123 19 147 34 157 57 C171 83 166 122 151 147 C139 168 120 181 100 185Z" fill="url(#mtFaceShadow)"/>
+        <path d="M100 29 C87 17 73 24 71 35 C56 31 48 42 52 54 C38 61 42 77 51 83 C42 94 49 108 60 111 C54 125 65 139 78 139 C78 153 89 163 100 162" fill="none" stroke="url(#mtBlue)" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M100 29 C113 17 127 24 129 35 C144 31 152 42 148 54 C162 61 158 77 149 83 C158 94 151 108 140 111 C146 125 135 139 122 139 C122 153 111 163 100 162" fill="none" stroke="url(#mtRed)" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M72 36 C84 37 87 48 77 54 M53 59 C67 55 75 66 68 77 M51 86 C65 79 76 90 70 99 M63 115 C75 106 85 117 80 128 M87 27 C96 35 94 44 87 49 M87 68 C97 61 101 72 94 80 M86 100 C96 94 101 104 94 111" fill="none" stroke="#35d9ff" strokeWidth="4.5" strokeLinecap="round"/>
+        <path d="M128 36 C116 37 113 48 123 54 M147 59 C133 55 125 66 132 77 M149 86 C135 79 124 90 130 99 M137 115 C125 106 115 117 120 128 M113 27 C104 35 106 44 113 49 M113 68 C103 61 99 72 106 80 M114 100 C104 94 99 104 106 111" fill="none" stroke="#ff4568" strokeWidth="4.5" strokeLinecap="round"/>
+        <path d="M100 24 V176" stroke="#eaf7ff" strokeOpacity=".75" strokeWidth="2"/>
+        <path d="M48 93 C57 81 78 81 91 92 L88 101 C75 94 60 95 51 103Z" fill="#071522" stroke="#35d9ff" strokeWidth="1.5"/>
+        <path d="M152 93 C143 81 122 81 109 92 L112 101 C125 94 140 95 149 103Z" fill="#050812" stroke="#ff4568" strokeWidth="1.5"/>
+        <path d="M56 93 Q69 86 83 94 Q70 105 56 93Z" fill="#e8faff" stroke="#0b3a59" strokeWidth="2"/>
+        <circle cx="70" cy="94" r="5.5" fill="#126b9d"/><circle cx="70" cy="94" r="2.3" fill="#07111f"/>
+        <path d="M144 93 Q131 86 117 94 Q130 105 144 93Z" fill="#ffb3c0" stroke="#511427" strokeWidth="2"/>
+        <circle cx="130" cy="94" r="5.5" fill="#ff4568"/><circle cx="130" cy="94" r="2.3" fill="#080b16"/>
+        <path d="M96 98 C92 111 89 119 96 122 L100 122" fill="none" stroke="#163b53" strokeWidth="3" strokeLinecap="round"/>
+        <path d="M104 98 C108 111 111 119 104 122 L100 122" fill="none" stroke="#ff4568" strokeWidth="2" strokeLinecap="round" opacity=".8"/>
+        <path d="M54 137 Q72 150 93 137" fill="none" stroke="#092e48" strokeWidth="5" strokeLinecap="round"/>
+        <path d="M54 136 Q73 145 93 136" fill="none" stroke="#f0fcff" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M107 137 Q128 150 146 137" fill="none" stroke="#ff4568" strokeWidth="5" strokeLinecap="round"/>
+        <path d="M107 136 Q127 140 146 136" fill="none" stroke="#ff9baa" strokeWidth="2" strokeLinecap="round"/>
+      </g>
+      <path d="M100 8 V19 M100 181 V192 M8 100 H19 M181 100 H192" stroke="#35d9ff" strokeWidth="2" strokeLinecap="round"/>
     </svg>
   );
 }
