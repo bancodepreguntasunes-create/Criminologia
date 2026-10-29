@@ -494,3 +494,13 @@ button,input,textarea,select{max-width:100%}
 .feature-scene{background-image:linear-gradient(0deg,rgba(0,8,18,.18),transparent),url('/images/case-community.png')}
 .feature-progress{background-image:linear-gradient(0deg,rgba(0,8,18,.2),transparent),url('/images/case-corporate.png')}
 @media(max-width:760px){.landing-face-wrap .mindtrace-mark{width:min(88vw,350px);max-height:none}}
+
+
+/* Progression card shown at the end of each completed difficulty level. */
+.level-advance-card{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:24px 0;padding:22px 24px;border:1px solid rgba(0,180,255,.42);border-radius:16px;background:linear-gradient(115deg,rgba(0,180,255,.12),rgba(230,27,46,.055));box-shadow:0 12px 32px rgba(0,0,0,.18)}
+.level-advance-card>div{display:grid;gap:7px;min-width:0}
+.level-advance-card>div>strong{font-size:1.12rem;color:#f1f7fc}
+.level-advance-card p{margin:0;color:#a9bdce;font-size:.9rem;line-height:1.55}
+.level-advance-card .eyebrow{color:#63d2ff;letter-spacing:.13em}
+.level-advance-card .button-primary{flex-shrink:0;white-space:nowrap}
+@media(max-width:720px){.level-advance-card{align-items:stretch;flex-direction:column;padding:18px}.level-advance-card .button-primary{width:100%;justify-content:center;white-space:normal}}
