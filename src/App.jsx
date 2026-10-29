@@ -88,56 +88,85 @@ function MindtraceMark({ size = 28 }) {
 
 function MysteryAudioControl() {
   const [enabled, setEnabled] = useState(false);
+  const [audioError, setAudioError] = useState(false);
   const audioRef = useRef(null);
 
-  const toggleAudio = () => {
+  const toggleAudio = async () => {
     if (enabled) {
-      audioRef.current?.oscillators?.forEach(osc => { try { osc.stop(); } catch {} });
-      audioRef.current?.context?.close?.();
+      const active = audioRef.current;
+      if (active) {
+        active.oscillators.forEach(osc => { try { osc.stop(); } catch {} });
+        try { await active.context.close(); } catch {}
+      }
       audioRef.current = null;
       setEnabled(false);
       return;
     }
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
-    const context = new AudioContextClass();
-    const master = context.createGain();
-    const filter = context.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 260;
-    filter.Q.value = 0.7;
-    master.gain.value = 0.0001;
-    filter.connect(master);
-    master.connect(context.destination);
-    const oscillators = [];
-    [55, 82.41, 110.0].forEach((frequency, index) => {
-      const osc = context.createOscillator();
-      const gain = context.createGain();
-      osc.type = index === 1 ? 'triangle' : 'sine';
-      osc.frequency.value = frequency;
-      osc.detune.value = index === 2 ? -7 : 3;
-      gain.gain.value = index === 0 ? 0.42 : 0.16;
-      osc.connect(gain);
-      gain.connect(filter);
-      osc.start();
-      oscillators.push(osc);
-    });
-    master.gain.setTargetAtTime(0.12, context.currentTime, 2.2);
-    audioRef.current = { context, oscillators };
-    setEnabled(true);
+
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) {
+        setAudioError(true);
+        return;
+      }
+
+      const context = new AudioContextClass();
+      await context.resume();
+
+      const master = context.createGain();
+      const filter = context.createBiquadFilter();
+      const compressor = context.createDynamicsCompressor();
+      filter.type = 'lowpass';
+      filter.frequency.value = 720;
+      filter.Q.value = 0.65;
+      master.gain.value = 0.0001;
+      compressor.threshold.value = -22;
+      compressor.knee.value = 18;
+      compressor.ratio.value = 3;
+      filter.connect(master);
+      master.connect(compressor);
+      compressor.connect(context.destination);
+
+      const oscillators = [];
+      // Tonos medios y graves para que el ambiente se escuche en altavoces pequeños.
+      [110, 164.81, 220, 277.18].forEach((frequency, index) => {
+        const osc = context.createOscillator();
+        const voice = context.createGain();
+        osc.type = index === 1 ? 'triangle' : 'sine';
+        osc.frequency.value = frequency;
+        osc.detune.value = index % 2 ? -5 : 4;
+        voice.gain.value = [0.34, 0.18, 0.12, 0.07][index];
+        osc.connect(voice);
+        voice.connect(filter);
+        osc.start();
+        oscillators.push(osc);
+      });
+
+      master.gain.setTargetAtTime(0.32, context.currentTime, 0.7);
+      audioRef.current = { context, oscillators };
+      setAudioError(false);
+      setEnabled(true);
+    } catch (error) {
+      console.error('No se pudo iniciar el ambiente sonoro:', error);
+      setAudioError(true);
+      setEnabled(false);
+    }
   };
 
   useEffect(() => () => {
-    audioRef.current?.oscillators?.forEach(osc => { try { osc.stop(); } catch {} });
-    audioRef.current?.context?.close?.();
+    const active = audioRef.current;
+    if (active) {
+      active.oscillators.forEach(osc => { try { osc.stop(); } catch {} });
+      active.context.close().catch(() => {});
+    }
   }, []);
 
   return (
     <button className={`mystery-audio-toggle ${enabled ? 'is-playing' : ''}`}
       onClick={toggleAudio} type="button" aria-pressed={enabled}
-      title={enabled ? 'Silenciar ambiente de misterio' : 'Activar ambiente de misterio'}>
+      title={audioError ? 'El navegador no pudo iniciar el audio' : enabled ? 'Silenciar ambiente de misterio' : 'Activar ambiente de misterio'}>
       {enabled ? <Volume2 size={16}/> : <VolumeX size={16}/>}
-      <span>{enabled ? 'AMBIENTE ACTIVO' : 'ACTIVAR AMBIENTE'}</span>
+      <span>{audioError ? 'AUDIO NO DISPONIBLE' : enabled ? 'AMBIENTE ACTIVO' : 'ACTIVAR AMBIENTE'}</span>
       <i aria-hidden="true"/>
     </button>
   );
