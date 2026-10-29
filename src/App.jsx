@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Activity, ArrowLeft, ArrowRight, Award, BookOpen, BriefcaseBusiness, Check,
   ChevronRight, CircleHelp, ClipboardList, Clock3, Compass, FlaskConical,
   GraduationCap, Leaf, LockKeyhole, Menu, MessageSquareText, Network, RotateCcw,
-  Search, ShieldCheck, Sparkles, Target, Users, X, Zap
+  Search, ShieldCheck, Sparkles, Target, Users, Volume2, VolumeX, X, Zap
 } from 'lucide-react';
 import { scenarios, difficulties } from './data/scenarios.js';
 import { advancedQuestions } from './data/advancedQuestions.js';
@@ -82,6 +82,64 @@ function MindtraceMark({ size = 28 }) {
       </g>
       <path d="M100 8 V19 M100 181 V192 M8 100 H19 M181 100 H192" stroke="#35d9ff" strokeWidth="2" strokeLinecap="round"/>
     </svg>
+  );
+}
+
+
+function MysteryAudioControl() {
+  const [enabled, setEnabled] = useState(false);
+  const audioRef = useRef(null);
+
+  const toggleAudio = () => {
+    if (enabled) {
+      audioRef.current?.oscillators?.forEach(osc => { try { osc.stop(); } catch {} });
+      audioRef.current?.context?.close?.();
+      audioRef.current = null;
+      setEnabled(false);
+      return;
+    }
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const context = new AudioContextClass();
+    const master = context.createGain();
+    const filter = context.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 260;
+    filter.Q.value = 0.7;
+    master.gain.value = 0.0001;
+    filter.connect(master);
+    master.connect(context.destination);
+    const oscillators = [];
+    [55, 82.41, 110.0].forEach((frequency, index) => {
+      const osc = context.createOscillator();
+      const gain = context.createGain();
+      osc.type = index === 1 ? 'triangle' : 'sine';
+      osc.frequency.value = frequency;
+      osc.detune.value = index === 2 ? -7 : 3;
+      gain.gain.value = index === 0 ? 0.42 : 0.16;
+      osc.connect(gain);
+      gain.connect(filter);
+      osc.start();
+      oscillators.push(osc);
+    });
+    master.gain.setTargetAtTime(0.12, context.currentTime, 2.2);
+    audioRef.current = { context, oscillators };
+    setEnabled(true);
+  };
+
+  useEffect(() => () => {
+    audioRef.current?.oscillators?.forEach(osc => { try { osc.stop(); } catch {} });
+    audioRef.current?.context?.close?.();
+  }, []);
+
+  return (
+    <button className={`mystery-audio-toggle ${enabled ? 'is-playing' : ''}`}
+      onClick={toggleAudio} type="button" aria-pressed={enabled}
+      title={enabled ? 'Silenciar ambiente de misterio' : 'Activar ambiente de misterio'}>
+      {enabled ? <Volume2 size={16}/> : <VolumeX size={16}/>}
+      <span>{enabled ? 'AMBIENTE ACTIVO' : 'ACTIVAR AMBIENTE'}</span>
+      <i aria-hidden="true"/>
+    </button>
   );
 }
 
@@ -208,7 +266,7 @@ export default function App() {
             <button className="mobile-menu icon-button" onClick={()=>setShowMobileMenu(v=>!v)}><Menu size={20}/></button>
             <div className="breadcrumbs"><span>ACADEMIA</span><ChevronRight size={13}/><strong>{({home:'PANEL PRINCIPAL',scenarios:'CASOS DE ESTUDIO',questionBank:'BANCO DE PREGUNTAS',case:'SIMULACIÓN ACTIVA',scene:'ESCENA 3D',report:'INFORME DE CASO',progress:'MI PROGRESO'})[page] || 'MINDTRACE'}</strong></div>
           </div>
-          <div className="topbar-right"><span className="status-pill"><span/> SIMULACIÓN EDUCATIVA</span><div className="avatar">MT</div></div>
+          <div className="topbar-right"><MysteryAudioControl/><span className="status-pill"><span/> SIMULACIÓN EDUCATIVA</span><div className="avatar">MT</div></div>
         </header>
 
         {page==='home' && <section className="page-content">
