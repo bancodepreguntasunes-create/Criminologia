@@ -416,7 +416,7 @@ button,input,textarea,select{max-width:100%}
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   min-height:34px;padding:0 12px;border-radius:7px;
   border:1px solid rgba(0,180,255,.28);background:rgba(0,180,255,.07);
-  color:#9fcde0;font:700 9px/1.2 inherit;letter-spacing:.09em;
+  color:#9fcde0;font-family:inherit;font-size:9px;font-weight:700;line-height:1.2;letter-spacing:.09em;
   cursor:pointer;transition:all .2s ease;white-space:nowrap
 }
 .mystery-audio-toggle:hover{border-color:#00B4FF;color:#e2e8f0;background:rgba(0,180,255,.13)}
