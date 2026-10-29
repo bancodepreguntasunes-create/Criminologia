@@ -504,3 +504,10 @@ button,input,textarea,select{max-width:100%}
 .level-advance-card .eyebrow{color:#63d2ff;letter-spacing:.13em}
 .level-advance-card .button-primary{flex-shrink:0;white-space:nowrap}
 @media(max-width:720px){.level-advance-card{align-items:stretch;flex-direction:column;padding:18px}.level-advance-card .button-primary{width:100%;justify-content:center;white-space:normal}}
+
+
+/* Alternativas visualmente equilibradas: ninguna destaca por ocupar más espacio. */
+.answer-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.answer-option{min-height:104px;align-items:flex-start;text-align:left}
+.answer-option-text{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;line-height:1.48}
+@media(max-width:720px){.answer-options{grid-template-columns:1fr}.answer-option{min-height:76px}.answer-option-text{-webkit-line-clamp:5}}
