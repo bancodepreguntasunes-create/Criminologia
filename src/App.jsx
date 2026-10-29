@@ -203,6 +203,13 @@ export default function App() {
     return { ...base, questions: advancedQuestions[base.id] || base.questions };
   }, [scenarioId]);
   const question = scenario.questions[questionIndex];
+  // Orden pseudoaleatorio estable por pregunta: evita que la opción correcta ocupe siempre la misma posición.
+  const displayedOptions = useMemo(() => {
+    const list = [...question.options];
+    let seed = Array.from(`${scenarioId}:${questionIndex}:${question.prompt}`).reduce((n,ch)=>(n*31+ch.charCodeAt(0))>>>0,7);
+    for(let i=list.length-1;i>0;i--){seed=(seed*1664525+1013904223)>>>0;const j=seed%(i+1);[list[i],list[j]]=[list[j],list[i]];}
+    return list;
+  },[question,scenarioId,questionIndex]);
   const maxScore = scenario.questions.length * 10;
   const progressPct = Math.round((questionIndex / scenario.questions.length) * 100);
   const totalScore = history.reduce((sum, item) => sum + (item.score || 0), 0);
@@ -393,7 +400,7 @@ export default function App() {
                 <p className="interview-instruction">Examina los datos del expediente. Elige la respuesta mejor respaldada por la evidencia, distingue observaciones de inferencias y evita conclusiones prematuras.</p>
                 {scenario.interviewee&&<blockquote className="interviewee-quote"><span className="quote-mark">“</span><div><small>DECLARACIÓN REGISTRADA · {scenario.interviewee.role.toUpperCase()}</small><p>{scenario.interviewee.quote}</p><cite>— {scenario.interviewee.name}</cite></div></blockquote>}
                 <div className="game-answer-heading"><span className="eyebrow">SELECCIONA UNA RESPUESTA</span><span>4 ALTERNATIVAS</span></div>
-                <div className="answer-options">{question.options.map((o,i)=><button key={o.text} disabled={!!feedback} className={`answer-option ${feedback===o?'chosen':''}`} onClick={()=>chooseOption(o)}><span className="answer-option-letter">{String.fromCharCode(65+i)}</span><span className="answer-option-text">{o.text}</span><ChevronRight size={17}/></button>)}</div>
+                <div className="answer-options">{displayedOptions.map((o,i)=><button key={o.text} disabled={!!feedback} className={`answer-option ${feedback===o?'chosen':''}`} onClick={()=>chooseOption(o)}><span className="answer-option-letter">{String.fromCharCode(65+i)}</span><span className="answer-option-text">{o.text}</span><ChevronRight size={17}/></button>)}</div>
                 {feedback&&<div className={`game-feedback-box ${feedback.score>=8?'correct':feedback.score<=2?'incorrect':'consider'}`}><div className="game-feedback-heading"><span>{feedback.score>=8?<Check size={17}/>:<CircleHelp size={17}/>}</span><div><strong>{feedback.score>=8?'ANÁLISIS CONSISTENTE':feedback.score<=2?'REQUIERE REVISIÓN':'ALTERNATIVA A CONSIDERAR'}</strong><small>VALORACIÓN: {feedback.score}/10 · {feedback.principle.toUpperCase()}</small></div></div><p>{feedback.feedback}</p><button className="button-primary compact" onClick={nextQuestion}>{questionIndex+1<scenario.questions.length?'SIGUIENTE PREGUNTA':'VER INFORME'} <ArrowRight size={15}/></button></div>}
                 <div className="game-question-actions"><button className="button-secondary" onClick={()=>go('scenarios')}><ArrowLeft size={15}/> VOLVER A CASOS</button><button className="game-scene-button" onClick={()=>go('scene')}><FlaskConical size={15}/> ABRIR ESCENA 3D <ArrowRight size={15}/></button></div>
               </article>
