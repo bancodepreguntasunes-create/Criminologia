@@ -409,3 +409,24 @@ button,input,textarea,select{max-width:100%}
   .sim-exit{grid-column:1;grid-row:auto;justify-self:start}
   .sim-cctv-image{height:190px;min-height:190px}
 }
+
+
+/* MINDTRACE mystery ambience control */
+.mystery-audio-toggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:34px;padding:0 12px;border-radius:7px;
+  border:1px solid rgba(0,180,255,.28);background:rgba(0,180,255,.07);
+  color:#9fcde0;font:700 9px/1.2 inherit;letter-spacing:.09em;
+  cursor:pointer;transition:all .2s ease;white-space:nowrap
+}
+.mystery-audio-toggle:hover{border-color:#00B4FF;color:#e2e8f0;background:rgba(0,180,255,.13)}
+.mystery-audio-toggle.is-playing{border-color:rgba(230,27,46,.55);color:#ff9aa5;background:rgba(230,27,46,.09);box-shadow:0 0 18px rgba(230,27,46,.1)}
+.mystery-audio-toggle i{width:6px;height:6px;border-radius:50%;background:#64748b}
+.mystery-audio-toggle.is-playing i{background:#ff4568;box-shadow:0 0 10px #ff4568;animation:mystery-pulse 1.8s infinite}
+@keyframes mystery-pulse{0%,100%{opacity:.45;transform:scale(.85)}50%{opacity:1;transform:scale(1.2)}}
+@media(max-width:700px){
+ .topbar-right{gap:6px}
+ .mystery-audio-toggle{min-height:32px;padding:0 9px;gap:6px}
+ .mystery-audio-toggle span{font-size:8px}
+}
+@media(max-width:380px){.mystery-audio-toggle span{display:none}.mystery-audio-toggle{width:34px;padding:0}}
