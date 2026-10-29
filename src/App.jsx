@@ -276,7 +276,7 @@ export default function App() {
             <aside className="game-left-panel">
               <div className="image-viewer">
                 <div className="image-viewer-top"><span><i/> CCTV / REFERENCIA VISUAL</span><b>CAM-{scenario.number}-0{questionIndex+1}</b></div>
-                <img src={question.image || scenario.image} alt={`Evidencia visual de la pregunta: ${question.prompt}`} onError={e=>{if(e.currentTarget.src!==new URL(scenario.image,window.location.href).href)e.currentTarget.src=scenario.image;}}/>
+                <img src={question.image || scenario.image} alt={`Evidencia visual de la pregunta: ${question.prompt}`} onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src=scenario.image || '/images/mindtrace-case-overview.png';}}/>
                 <div className="image-scanlines"/>
                 <div className="image-viewer-crosshair image-viewer-crosshair-a"/>
                 <div className="image-viewer-crosshair image-viewer-crosshair-b"/>
