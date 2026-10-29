@@ -9,6 +9,7 @@ import { scenarios, difficulties } from './data/scenarios.js';
 import { advancedQuestions } from './data/advancedQuestions.js';
 import { questionBank } from './data/questionBank.js';
 import Scene3D from './components/Scene3D.jsx';
+import BrokenWindowsPsychopathyModule from './components/BrokenWindowsPsychopathyModule.jsx';
 import { supabaseConfigured, saveProgress, loadProgress, ensureAnonymousSession } from './lib/supabase.js';
 
 const iconMap = {
@@ -280,6 +281,7 @@ export default function App() {
           <button className={`nav-item ${page==='home'?'active':''}`} onClick={()=>go('home')}><Compass size={18}/><span>Panel principal</span></button>
           <button className={`nav-item ${page==='scenarios'?'active':''}`} onClick={()=>go('scenarios')}><ClipboardList size={18}/><span>Casos de estudio</span><span className="nav-count">04</span></button>
           <button className={`nav-item ${page==='questionBank'?'active':''}`} onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}><BookOpen size={18}/><span>Banco de preguntas</span><span className="nav-count">{questionBank.length}</span></button>
+          <button className={`nav-item ${page==='bwModule'?'active':''}`} onClick={()=>go('bwModule')}><BrainCircuitIcon/><span>Ventanas rotas & psicopatía</span></button>
           <button className={`nav-item ${page==='progress'?'active':''}`} onClick={()=>go('progress')}><Activity size={18}/><span>Mi progreso</span></button>
         </nav>
         <div className="sidebar-lab-card">
@@ -300,7 +302,7 @@ export default function App() {
         <header className="topbar">
           <div className="topbar-left">
             <button className="mobile-menu icon-button" onClick={()=>setShowMobileMenu(v=>!v)}><Menu size={20}/></button>
-            <div className="breadcrumbs"><span>ACADEMIA</span><ChevronRight size={13}/><strong>{({home:'PANEL PRINCIPAL',scenarios:'CASOS DE ESTUDIO',questionBank:'BANCO DE PREGUNTAS',case:'SIMULACIÓN ACTIVA',scene:'ESCENA 3D',report:'INFORME DE CASO',progress:'MI PROGRESO'})[page] || 'MINDTRACE'}</strong></div>
+            <div className="breadcrumbs"><span>ACADEMIA</span><ChevronRight size={13}/><strong>{({home:'PANEL PRINCIPAL',scenarios:'CASOS DE ESTUDIO',questionBank:'BANCO DE PREGUNTAS',case:'SIMULACIÓN ACTIVA',scene:'ESCENA 3D',report:'INFORME DE CASO',progress:'MI PROGRESO',bwModule:'VENTANAS ROTAS & PSICOPATÍA'})[page] || 'MINDTRACE'}</strong></div>
           </div>
           <div className="topbar-right"><MysteryAudioControl/><span className="status-pill"><span/> SIMULACIÓN EDUCATIVA</span><div className="avatar">MT</div></div>
         </header>
@@ -311,6 +313,7 @@ export default function App() {
             <nav className="landing-nav">
               <button className="active" onClick={()=>go('home')}>INICIO</button>
               <button onClick={()=>go('scenarios')}>CASOS</button>
+              <button onClick={()=>go('bwModule')}>ANÁLISIS CONDUCTUAL</button>
               <button onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}>BANCO DE PREGUNTAS</button>
               <button onClick={()=>go('scene')}>SIMULACIÓN</button>
               <button onClick={()=>setShowGuide(true)}>RECURSOS</button>
@@ -430,6 +433,8 @@ export default function App() {
           </div>
           <div className="report-actions"><button className="button-secondary" onClick={()=>go('case')}><ArrowLeft size={16}/> Revisar expediente</button><button className="button-primary" onClick={finishReport} disabled={saveState==='saving'||saveState==='saved'}>{saveState==='saved'?'Guardado':saveState==='saving'?'Guardando…':'Guardar informe'} <Check size={16}/></button><button className="text-button" onClick={()=>{resetSession(scenarioId);go('case')}}><RotateCcw size={15}/> Repetir caso</button></div>
         </section>}
+
+        {page==='bwModule' && <BrokenWindowsPsychopathyModule onBack={()=>go('home')}/>}
 
         {page==='progress' && <section className="page-content">
           <div className="page-heading"><div><span className="eyebrow">REGISTRO DE APRENDIZAJE</span><h1>Mi progreso<span>.</span></h1><p>Consulta tus partidas, puntuaciones y habilidades desarrolladas.</p></div><div className="heading-counter"><Award size={28}/><span>PERFIL<br/>INVESTIGADOR</span></div></div>
