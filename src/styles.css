@@ -453,7 +453,7 @@ button,input,textarea,select{max-width:100%}
 .landing-cta{display:flex;align-items:center;gap:24px;padding:13px 25px;border:2px solid #00bfff;border-radius:15px;background:rgba(0,180,255,.04);color:#00cfff;font-weight:800;box-shadow:0 0 20px rgba(0,180,255,.22);cursor:pointer}
 .landing-face-wrap{position:relative;display:flex;justify-content:center;align-items:center;min-width:0;height:420px}
 .landing-face-wrap:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,180,255,.12),transparent 48%,rgba(230,27,46,.14));filter:blur(28px)}
-.landing-face-wrap img{position:relative;width:min(100%,440px);height:100%;object-fit:contain;filter:drop-shadow(0 0 28px rgba(0,180,255,.22));mix-blend-mode:screen}
+.landing-face-wrap .mindtrace-mark{position:relative;display:block;width:min(100%,430px);height:auto;max-height:100%;filter:drop-shadow(0 0 24px rgba(0,180,255,.3)) drop-shadow(0 0 24px rgba(230,27,46,.22));mix-blend-mode:normal}
 .landing-face-ring{position:absolute;width:min(86%,390px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(0,180,255,.34);box-shadow:0 0 25px rgba(0,180,255,.14),inset 0 0 22px rgba(230,27,46,.1)}
 .landing-disciplines{position:relative;z-index:2;display:grid;gap:0;border-left:1px solid rgba(0,180,255,.5);padding-left:20px}
 .landing-motto{font-size:10px;letter-spacing:.2em;color:#70c6e7;margin:0 0 17px}
@@ -467,9 +467,9 @@ button,input,textarea,select{max-width:100%}
 .landing-feature:hover{transform:translateY(-4px);border-color:#00d2ff;box-shadow:0 8px 25px rgba(0,180,255,.12)}
 .landing-feature-image{display:block;width:100%;height:115px;background-size:cover;background-position:center;filter:saturate(1.15)}
 .feature-cases{background-image:linear-gradient(0deg,rgba(0,8,18,.2),transparent),url('/images/case-interview.png')}
-.feature-bank{background-image:radial-gradient(circle at 50% 45%,rgba(0,180,255,.35),transparent 60%),url('/images/mindtrace-face.webp')}
-.feature-scene{background-image:url('/images/scene-crime-room.png'),linear-gradient(120deg,#03172b,#07101c)}
-.feature-progress{background-image:radial-gradient(circle at 50%,rgba(0,180,255,.24),transparent 55%),url('/images/mindtrace-face.webp')}
+.feature-bank{background-image:linear-gradient(0deg,rgba(0,8,18,.25),rgba(0,8,18,.02)),url('/images/mindtrace-case-overview.png')}
+.feature-scene{background-image:linear-gradient(0deg,rgba(0,8,18,.18),transparent),url('/images/case-community.png')}
+.feature-progress{background-image:linear-gradient(0deg,rgba(0,8,18,.2),transparent),url('/images/case-corporate.png')}
 .landing-feature>b{font-size:11px;letter-spacing:.07em;color:#00caff;margin:12px 13px 5px}.landing-feature>small{font-size:11px;line-height:1.5;color:#a9c1d4;margin:0 13px;min-height:34px}.landing-feature>i{display:grid;place-items:center;width:25px;height:25px;border:1px solid #00c8ff;border-radius:50%;color:#00c8ff;font-style:normal;margin:9px 13px 0}
 .landing-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:25px clamp(24px,7vw,110px);background:radial-gradient(ellipse at 50% 100%,rgba(0,94,155,.17),transparent 70%),#02060d}
 .landing-stats>div{display:flex;align-items:center;justify-content:center;gap:18px;border-right:1px solid rgba(0,180,255,.2);min-height:65px}.landing-stats>div:last-child{border:0}.landing-stats svg{width:43px;height:43px;color:#00c8ff;stroke-width:1.4}.landing-stats strong{font-size:25px;color:#00bfff;display:grid;gap:4px}.landing-stats strong small{font-size:10px;line-height:1.35;font-weight:500;color:#b8d1e2;letter-spacing:.05em}
@@ -486,3 +486,11 @@ button,input,textarea,select{max-width:100%}
  .landing-stats{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px 12px;gap:8px}.landing-stats>div{justify-content:flex-start;padding:8px;border-right:0;border-bottom:1px solid rgba(0,180,255,.18);gap:10px}.landing-stats svg{width:34px;height:34px}.landing-stats strong{font-size:21px}.landing-stats strong small{font-size:8px}
 }
 @media(max-width:380px){.landing-brand b{font-size:16px}.landing-nav{gap:9px}.landing-nav button{font-size:7px}.landing-hero{padding-left:14px;padding-right:14px}.landing-disciplines{grid-template-columns:1fr}.landing-feature-grid{gap:8px}.landing-feature-image{height:85px}}
+
+/* Evita tarjetas vacías: cada módulo de la portada usa una fotografía existente. */
+.landing-feature-image{background-color:#071321;background-repeat:no-repeat;background-size:cover;background-position:center}
+.feature-cases{background-image:linear-gradient(0deg,rgba(0,8,18,.18),transparent),url('/images/case-interview.png')}
+.feature-bank{background-image:linear-gradient(0deg,rgba(0,8,18,.2),transparent),url('/images/mindtrace-case-overview.png')}
+.feature-scene{background-image:linear-gradient(0deg,rgba(0,8,18,.18),transparent),url('/images/case-community.png')}
+.feature-progress{background-image:linear-gradient(0deg,rgba(0,8,18,.2),transparent),url('/images/case-corporate.png')}
+@media(max-width:760px){.landing-face-wrap .mindtrace-mark{width:min(88vw,350px);max-height:none}}
