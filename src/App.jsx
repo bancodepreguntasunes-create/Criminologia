@@ -260,7 +260,7 @@ export default function App() {
   const startNew = () => { resetSession(scenarioId); go('case'); };
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${page==='home'?'landing-shell':''}`}>
       <aside className={`sidebar ${showMobileMenu?'mobile-open':''}`}>
         <div className="brand-lockup" onClick={() => go('home')} role="button" tabIndex={0}>
           <div className="brand-mark"><MindtraceMark size={32}/></div>
@@ -298,45 +298,54 @@ export default function App() {
           <div className="topbar-right"><MysteryAudioControl/><span className="status-pill"><span/> SIMULACIÓN EDUCATIVA</span><div className="avatar">MT</div></div>
         </header>
 
-        {page==='home' && <section className="page-content">
-          <div className="welcome-row">
-            <div><div className="eyebrow"><Sparkles size={14}/> CENTRO DE ANÁLISIS CONDUCTUAL</div><h1>Piensa como investigador<span>.</span></h1><p className="lead">Cada detalle cuenta. Construye hipótesis, contrasta evidencias y aprende a leer un caso sin precipitar conclusiones.</p></div>
-            <div className="welcome-stamp"><MindtraceMark size={42}/><span>CASE FILE<br/><b>MT–2026</b></span></div>
-          </div>
-          <div className="hero-card">
-            <div className="hero-text">
-              <div className="hero-kicker"><span className="kicker-line"/> CASO DESTACADO <span className="hero-new">NUEVO</span></div>
-              <h2>La hora que<br/>no encaja.</h2>
-              <p>Una entrevista. Tres versiones. Un registro que cambia la investigación.</p>
-              <div className="hero-meta"><span><Clock3 size={15}/> 12–18 MIN</span><span><Target size={15}/> NIVEL DIFÍCIL</span></div>
-              <button className="button-primary" onClick={()=>startCase('testimonial')}>Abrir expediente <ArrowRight size={17}/></button>
+        {page==='home' && <section className="landing-page">
+          <header className="landing-header">
+            <button className="landing-brand" onClick={()=>go('home')}><MindtraceMark size={58}/><span><b><em>MIND</em>TRACE</b><small>LABORATORIO CRIMINOLÓGICO</small></span></button>
+            <nav className="landing-nav">
+              <button className="active" onClick={()=>go('home')}>INICIO</button>
+              <button onClick={()=>go('scenarios')}>CASOS</button>
+              <button onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}>BANCO DE PREGUNTAS</button>
+              <button onClick={()=>go('scene')}>SIMULACIÓN</button>
+              <button onClick={()=>setShowGuide(true)}>RECURSOS</button>
+              <button onClick={()=>setShowGuide(true)}>NOSOTROS</button>
+            </nav>
+            <div className="landing-actions"><button className="landing-search" aria-label="Buscar" onClick={()=>go('questionBank')}><Search size={20}/></button><button className="landing-login" onClick={()=>go('progress')}><Users size={15}/> MI PROGRESO <ChevronRight size={16}/></button><button className="landing-audio"><MysteryAudioControl/></button></div>
+          </header>
+          <div className="landing-hero">
+            <div className="landing-smoke landing-smoke-blue"/>
+            <div className="landing-smoke landing-smoke-red"/>
+            <div className="landing-copy">
+              <div className="landing-eyebrow"><span/> LABORATORIO CRIMINOLÓGICO</div>
+              <h1>LA MENTE<br/><strong>TAMBIÉN <i>DEJA</i><br/>HUELLAS</strong></h1>
+              <p>Explora, analiza y descubre los patrones de conducta que se esconden detrás de cada caso. La criminalística también comienza en la mente.</p>
+              <button className="landing-cta" onClick={()=>go('scenarios')}>COMENZAR <ArrowRight size={20}/></button>
             </div>
-            <div className="hero-art hero-brand-art">
-              <div className="hero-art-code">MINDTRACE / FORENSIC LAB<br/>EVIDENCE UNIT · 001</div>
-              <div className="hero-orbit orbit-one"/><div className="hero-orbit orbit-two"/>
-              <div className="hero-fingerprint hero-brand-emblem"><MindtraceMark size={210}/></div>
-              <div className="hero-brand-wordmark"><span>MIND</span><b>TRACE</b></div>
-              <div className="hero-brand-tagline">PIENSA <i/> ANALIZA <i/> DESCUBRE</div>
-              <div className="hero-brand-rule"/>
-              <div className="hero-disciplines">
-                <span><BrainCircuitIcon/>CRIMINOLOGÍA</span><span><ScaleIcon/>DERECHO PENAL</span><span><ScanIcon/>CRIMINALÍSTICA</span><span><DnaIcon/>ANTROPOLOGÍA</span><span><PsychologyIcon/>PSICOLOGÍA FORENSE</span>
-              </div>
-              <div className="hero-art-label"><span className="pulse-dot"/> LABORATORIO DE ANÁLISIS ACTIVO</div>
+            <div className="landing-face-wrap"><div className="landing-face-ring"/><img src="/images/mindtrace-face.webp" alt="Rostro dividido MINDTRACE, cerebro azul y rojo"/></div>
+            <div className="landing-disciplines">
+              <div className="landing-motto">ANALIZA&nbsp; · &nbsp;IDENTIFICA&nbsp; · &nbsp;RESUELVE</div>
+              <div><BrainCircuitIcon/><span><b>CRIMINOLOGÍA</b><small>Comprende el comportamiento<br/>delictivo.</small></span></div>
+              <div><ScaleIcon/><span><b>DERECHO PENAL (COPP)</b><small>Conoce el marco legal<br/>y sus implicancias.</small></span></div>
+              <div><ScanIcon/><span><b>CRIMINALÍSTICA</b><small>La evidencia habla,<br/>tú la interpretas.</small></span></div>
+              <div><DnaIcon/><span><b>ANTROPOLOGÍA FORENSE</b><small>El cuerpo también cuenta<br/>una historia.</small></span></div>
+              <div><PsychologyIcon/><span><b>PSICOLOGÍA FORENSE</b><small>La mente revela lo que<br/>el rostro oculta.</small></span></div>
             </div>
           </div>
-          <div className="section-heading"><div><span className="eyebrow">TU ESPACIO DE TRABAJO</span><h2>Panel de rendimiento</h2></div><button className="text-button" onClick={()=>go('progress')}>Ver progreso <ArrowRight size={15}/></button></div>
-          <div className="stats-grid">
-            <div className="stat-card"><div className="stat-top"><span>CASOS COMPLETADOS</span><ClipboardList size={17}/></div><strong>{history.length.toString().padStart(2,'0')}</strong><small>Expedientes resueltos</small><div className="stat-foot"><span className="stat-mini-bar"><i style={{width:`${Math.min(history.length/8*100,100)}%`}}/></span><span>{Math.min(history.length,8)}/8 meta inicial</span></div></div>
-            <div className="stat-card"><div className="stat-top"><span>PUNTUACIÓN MEDIA</span><Award size={17}/></div><strong>{avgScore}<em>/100</em></strong><small>Razonamiento y evidencia</small><div className="stat-foot"><span className="stat-tag">{avgScore>=80?'Buen criterio':history.length?'Sigue investigando':'Aún sin evaluar'}</span></div></div>
-            <div className="stat-card"><div className="stat-top"><span>PISTAS EXPLORADAS</span><Search size={17}/></div><strong>{history.reduce((s,h)=>s+(h.discoveries||0),0).toString().padStart(2,'0')}</strong><small>Observaciones registradas</small><div className="stat-foot"><span className="stat-tag neutral">Inspección activa</span></div></div>
-          </div>
-          <div className="section-heading"><div><span className="eyebrow">RUTA DE APRENDIZAJE</span><h2>Explora los escenarios</h2></div><button className="text-button" onClick={()=>go('scenarios')}>Todos los casos <ArrowRight size={15}/></button></div>
-          <div className="scenario-grid">
-            {scenarios.map(s => <ScenarioCard key={s.id} scenario={s} onClick={()=>startCase(s.id)}/>)}
-          </div>
-          <div className="bottom-note"><ShieldCheck size={18}/><p><strong>Principio de investigación:</strong> una conducta aislada no define a una persona. Las hipótesis deben ser verificables, considerar alternativas y respetar la presunción de inocencia.</p></div>
+          <section className="landing-about">
+            <div className="landing-about-copy"><span>SOBRE MINDTRACE</span><h2>Más que un juego,<br/>es una experiencia forense</h2><p>MINDTRACE es una plataforma educativa e interactiva diseñada para que explores casos reales, analices pruebas, resuelvas desafíos y pongas a prueba tu pensamiento crítico desde la criminología y la psicología forense.</p><button onClick={()=>setShowGuide(true)}>CONOCE MÁS <ArrowRight size={17}/></button></div>
+            <div className="landing-feature-grid">
+              <button className="landing-feature" onClick={()=>go('scenarios')}><span className="landing-feature-image feature-cases"/><b>CASOS DE ESTUDIO</b><small>Investiga escenarios basados en la realidad forense.</small><i><ArrowRight size={15}/></i></button>
+              <button className="landing-feature" onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}><span className="landing-feature-image feature-bank"/><b>BANCO DE PREGUNTAS</b><small>Pon a prueba tus conocimientos y razonamiento.</small><i><ArrowRight size={15}/></i></button>
+              <button className="landing-feature" onClick={()=>go('scene')}><span className="landing-feature-image feature-scene"/><b>SIMULACIÓN 3D</b><small>Explora escenas interactivas y toma decisiones clave.</small><i><ArrowRight size={15}/></i></button>
+              <button className="landing-feature" onClick={()=>go('progress')}><span className="landing-feature-image feature-progress"/><b>TU PROGRESO</b><small>Sigue tu evolución y desbloquea nuevos desafíos.</small><i><ArrowRight size={15}/></i></button>
+            </div>
+          </section>
+          <section className="landing-stats">
+            <div><BrainCircuitIcon/><strong>5<small>DISCIPLINAS<br/>FORENSES</small></strong></div>
+            <div><ScanIcon/><strong>100+<small>PREGUNTAS<br/>INTERACTIVAS</small></strong></div>
+            <div><ClipboardList/><strong>20+<small>CASOS<br/>ÚNICOS</small></strong></div>
+            <div><Target/><strong><small>UN SOLO OBJETIVO</small><small>DESCUBRIR<br/>LA VERDAD</small></strong></div>
+          </section>
         </section>}
-
         {page==='scenarios' && <section className="page-content">
           <div className="page-heading"><div><span className="eyebrow">ARCHIVO DE INVESTIGACIÓN</span><h1>Casos de estudio<span>.</span></h1><p>Cuatro contextos. Diferentes fuentes de evidencia. Un mismo método: pensar con rigor.</p></div><div className="heading-counter"><strong>04</strong><span>EXPEDIENTES<br/>DISPONIBLES</span></div></div>
           <div className="scenario-grid full">{scenarios.map(s=><ScenarioCard key={s.id} scenario={s} onClick={()=>startCase(s.id)}/>)}</div>
