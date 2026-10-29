@@ -320,7 +320,7 @@ export default function App() {
               <p>Explora, analiza y descubre los patrones de conducta que se esconden detrás de cada caso. La criminalística también comienza en la mente.</p>
               <button className="landing-cta" onClick={()=>go('scenarios')}>COMENZAR <ArrowRight size={20}/></button>
             </div>
-            <div className="landing-face-wrap"><div className="landing-face-ring"/><img src="/images/mindtrace-face.webp" alt="Rostro dividido MINDTRACE, cerebro azul y rojo"/></div>
+            <div className="landing-face-wrap" aria-label="Emblema MINDTRACE: rostro dividido azul y rojo"><div className="landing-face-ring"/><MindtraceMark size={420}/></div>
             <div className="landing-disciplines">
               <div className="landing-motto">ANALIZA&nbsp; · &nbsp;IDENTIFICA&nbsp; · &nbsp;RESUELVE</div>
               <div><BrainCircuitIcon/><span><b>CRIMINOLOGÍA</b><small>Comprende el comportamiento<br/>delictivo.</small></span></div>
