@@ -532,3 +532,21 @@ button,input,textarea,select{max-width:100%}
 .bw-corroborate{margin-top:18px;padding:22px}.bw-corroborate>p{color:#aebfd0;font-size:13px;line-height:1.6}.bw-corroborate>label:not(.eyebrow){display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-top:1px solid rgba(0,180,255,.13);cursor:pointer}.bw-corroborate input{margin-top:3px;accent-color:#00bfff}.bw-corroborate label span{display:grid;gap:5px}.bw-corroborate label strong{font-size:13px;color:#eaf2f8}.bw-corroborate label small{font-size:11px;color:#aabccc;line-height:1.5}.bw-corroborate textarea{display:block;width:100%;margin:10px 0 16px;background:#071321;border:1px solid rgba(0,180,255,.32);border-radius:9px;padding:12px;color:#f0f6fb;font:inherit}.bw-corroborate>.button-primary{width:100%;justify-content:center}
 .bw-verdict{padding:26px;border:1px solid rgba(0,191,255,.4);border-radius:15px;background:linear-gradient(120deg,rgba(0,100,150,.17),rgba(8,15,26,.98));color:#eaf3fa;margin:22px 0}.bw-verdict>.eyebrow{color:#64d5ff;font-size:10px;letter-spacing:.13em}.bw-verdict h2{font-size:clamp(22px,3vw,32px);line-height:1.25;margin:12px 0}.bw-verdict p{color:#c1d0dc;font-size:14px;line-height:1.7;max-width:850px}.bw-verdict>strong{font-size:12px;color:#ff9aa8}
 @media(max-width:600px){.bw-options button{align-items:flex-start;padding:13px}.bw-corroborate{padding:16px}.bw-verdict{padding:19px}}
+
+/* Tarjeta de perfil conductual y barras HUD forenses */
+.report-grid{grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr)}
+.report-right-column{display:flex;flex-direction:column;gap:14px;min-width:0}
+.profile-report-card{min-width:0;padding:20px;border:1px solid rgba(0,180,255,.3);border-top-color:rgba(230,27,46,.55);border-radius:14px;background:rgba(15,24,35,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 12px 32px rgba(0,0,0,.24),inset 0 0 24px rgba(0,180,255,.035)}
+.profile-report-card>.eyebrow{color:#70dfff;font:9px 'DM Mono',monospace;letter-spacing:.13em}
+.profile-report-card h3{margin:8px 0 12px;color:#e8f3fa;font:700 17px Manrope,sans-serif}
+.profile-title{display:block;margin:0 0 9px;font:800 clamp(17px,2vw,22px) Manrope,sans-serif;line-height:1.25}
+.profile-report-card>p{margin:0 0 18px;color:#a9bdca;font-size:11px;line-height:1.7}
+.profile-hud-metric{margin:14px 0}
+.profile-hud-metric>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:7px}
+.profile-hud-metric span{color:#dce8f0;font-size:10px}
+.profile-hud-metric b{color:#eaf7ff;font:600 10px 'DM Mono',monospace}
+.hud-bar-container{height:6px;width:100%;overflow:hidden;border-radius:20px;background:#07121d;border:1px solid rgba(121,170,198,.22);box-shadow:inset 0 1px 3px #0009}
+.hud-bar-fill{display:block;height:100%;border-radius:20px;background:var(--hud-color,#00B4FF);box-shadow:0 0 7px var(--hud-color,#00B4FF),0 0 15px var(--hud-color,#00B4FF);transition:width .4s ease}
+.profile-note{display:block;margin-top:16px;color:#8299a9;font-size:9px;line-height:1.6}
+@media(max-width:900px){.report-grid{grid-template-columns:minmax(0,1fr)}.report-right-column{grid-row:auto}}
+@media(prefers-reduced-motion:reduce){.hud-bar-fill{transition:none}}
