@@ -11,6 +11,7 @@ import { advancedQuestions, behavioralProfileQuestions } from './data/advancedQu
 import { questionBank } from './data/questionBank.js';
 import Scene3D from './components/Scene3D.jsx';
 import MbtiTest from './components/MbtiTest.jsx';
+import PersonalityTest from './components/PersonalityTest.jsx';
 import { supabaseConfigured, saveProgress, loadProgress, ensureAnonymousSession } from './lib/supabase.js';
 
 const iconMap = {
@@ -361,7 +362,7 @@ export default function App() {
               <button onClick={()=>go('scenarios')}>CASOS</button>
               <button className={page==='mbti'?'active':''} onClick={()=>go('mbti')}>TEST MBTI</button>
               <button onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}>BANCO DE PREGUNTAS</button>
-              <button onClick={()=>go('scene')}>SIMULACIÓN</button>
+              <button className={page==='personality'?'active':''} onClick={()=>go('personality')}>TEST PERSONALIDAD</button>
               <button onClick={()=>setShowGuide(true)}>RECURSOS</button>
               <button onClick={()=>setShowGuide(true)}>NOSOTROS</button>
             </nav>
@@ -499,6 +500,7 @@ export default function App() {
         </section>}
 
         {page==='mbti' && <MbtiTest />}
+        {page==='personality' && <PersonalityTest />}
 
         <footer className="app-footer"><div className="footer-brand"><MindtraceMark size={22}/><strong>MINDTRACE</strong></div><span>ENTORNO DE APRENDIZAJE · CASOS FICTICIOS</span><button onClick={()=>setShowGuide(true)}>Acerca del laboratorio <ArrowRight size={13}/></button></footer>
       </main>
