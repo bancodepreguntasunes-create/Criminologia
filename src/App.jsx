@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Activity, ArrowLeft, ArrowRight, Award, BookOpen, BriefcaseBusiness, Check,
+  Activity, ArrowLeft, ArrowRight, Award, BookOpen, Brain, BriefcaseBusiness, Check,
   ChevronRight, CircleHelp, ClipboardList, Clock3, Compass, FlaskConical,
   GraduationCap, Leaf, LockKeyhole, Menu, MessageSquareText, Network, RotateCcw,
   Search, ShieldCheck, Sparkles, Target, Users, Volume2, VolumeX, X, Zap
@@ -10,6 +10,7 @@ import { extendedInterviewQuestions } from './data/interviewQuestions.js';
 import { advancedQuestions, behavioralProfileQuestions } from './data/advancedQuestions.js';
 import { questionBank } from './data/questionBank.js';
 import Scene3D from './components/Scene3D.jsx';
+import MbtiTest from './components/MbtiTest.jsx';
 import { supabaseConfigured, saveProgress, loadProgress, ensureAnonymousSession } from './lib/supabase.js';
 
 const iconMap = {
@@ -327,6 +328,7 @@ export default function App() {
           <button className={`nav-item ${page==='scenarios'?'active':''}`} onClick={()=>go('scenarios')}><ClipboardList size={18}/><span>Casos de estudio</span><span className="nav-count">04</span></button>
           <button className={`nav-item ${page==='questionBank'?'active':''}`} onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}><BookOpen size={18}/><span>Banco de preguntas</span><span className="nav-count">{questionBank.length}</span></button>
           <button className={`nav-item ${page==='progress'?'active':''}`} onClick={()=>go('progress')}><Activity size={18}/><span>Mi progreso</span></button>
+          <button className={`nav-item ${page==='mbti'?'active':''}`} onClick={()=>go('mbti')}><Brain size={18}/><span>Test MBTI</span></button>
         </nav>
         <div className="sidebar-lab-card">
           <div className="lab-card-icon"><ShieldCheck size={18}/></div>
@@ -346,7 +348,7 @@ export default function App() {
         <header className="topbar">
           <div className="topbar-left">
             <button className="mobile-menu icon-button" onClick={()=>setShowMobileMenu(v=>!v)}><Menu size={20}/></button>
-            <div className="breadcrumbs"><span>ACADEMIA</span><ChevronRight size={13}/><strong>{({home:'PANEL PRINCIPAL',scenarios:'CASOS DE ESTUDIO',questionBank:'BANCO DE PREGUNTAS',case:'SIMULACIÓN ACTIVA',scene:'ESCENA 3D',report:'INFORME DE CASO',progress:'MI PROGRESO',bwModule:'VENTANAS ROTAS & PSICOPATÍA'})[page] || 'MINDTRACE'}</strong></div>
+            <div className="breadcrumbs"><span>ACADEMIA</span><ChevronRight size={13}/><strong>{({home:'PANEL PRINCIPAL',scenarios:'CASOS DE ESTUDIO',questionBank:'BANCO DE PREGUNTAS',case:'SIMULACIÓN ACTIVA',scene:'ESCENA 3D',report:'INFORME DE CASO',progress:'MI PROGRESO',bwModule:'VENTANAS ROTAS & PSICOPATÍA',mbti:'TEST MBTI FORENSE'})[page] || 'MINDTRACE'}</strong></div>
           </div>
           <div className="topbar-right"><MysteryAudioControl/><span className="status-pill"><span/> SIMULACIÓN EDUCATIVA</span><div className="avatar">MT</div></div>
         </header>
@@ -495,6 +497,8 @@ export default function App() {
           <div className="panel-card history-card"><div className="panel-title"><div className="panel-icon"><Clock3 size={18}/></div><div><span className="eyebrow">HISTORIAL</span><h3>Últimas investigaciones</h3></div></div>{history.length===0?<div className="empty-state"><div><ClipboardList size={26}/></div><strong>Aún no hay casos completados</strong><p>Inicia un expediente y guarda tu primer informe.</p><button className="button-primary compact" onClick={()=>go('scenarios')}>Explorar casos <ArrowRight size={15}/></button></div>:<div className="history-list">{history.map(item=><div className="history-row" key={item.id}><div className="history-icon"><MindtraceMark size={22}/></div><div className="history-name"><strong>{item.scenarioTitle||scenarios.find(s=>s.id===item.scenarioId)?.title||item.scenarioId}</strong><small>{item.difficulty} · {new Date(item.completedAt).toLocaleDateString('es-ES')}</small></div><div className="history-score"><strong>{item.score}</strong><small>/100</small></div><button className="icon-button" onClick={()=>startCase(item.scenarioId)} title="Repetir caso"><RotateCcw size={16}/></button></div>)}</div>}</div>
           {supabaseConfigured && <div className="panel-card remote-card"><div className="panel-title"><div className="panel-icon"><ShieldCheck size={18}/></div><div><span className="eyebrow">SUPABASE</span><h3>Progreso sincronizado</h3></div><button className="text-button" onClick={()=>loadProgress().then(setRemoteHistory).catch(e=>notify(e.message))}>Actualizar <RotateCcw size={14}/></button></div>{remoteHistory.length?<div className="history-list">{remoteHistory.map(item=><div className="history-row" key={item.id}><div className="history-icon"><Activity size={18}/></div><div className="history-name"><strong>{scenarios.find(s=>s.id===item.scenario_id)?.title||item.scenario_id}</strong><small>{item.difficulty} · {new Date(item.created_at).toLocaleDateString('es-ES')}</small></div><div className="history-score"><strong>{item.score}</strong><small>/100</small></div></div>)}</div>:<p className="muted">Cuando guardes un informe autenticado, aparecerá aquí.</p>}</div>}
         </section>}
+
+        {page==='mbti' && <MbtiTest />}
 
         <footer className="app-footer"><div className="footer-brand"><MindtraceMark size={22}/><strong>MINDTRACE</strong></div><span>ENTORNO DE APRENDIZAJE · CASOS FICTICIOS</span><button onClick={()=>setShowGuide(true)}>Acerca del laboratorio <ArrowRight size={13}/></button></footer>
       </main>
