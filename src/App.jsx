@@ -191,6 +191,7 @@ export default function App() {
   const [scenarioId, setScenarioId] = useState(scenarios[0].id);
   const [difficulty, setDifficulty] = useState('Difícil');
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [optionShuffleSeed, setOptionShuffleSeed] = useState(() => Math.floor(Math.random() * 0xFFFFFFFF));
   const [decisions, setDecisions] = useState([]);
   const [discovered, setDiscovered] = useState([]);
   const [activeEvidence, setActiveEvidence] = useState(null);
@@ -230,10 +231,10 @@ export default function App() {
   // Orden pseudoaleatorio estable por pregunta: evita que la opción correcta ocupe siempre la misma posición.
   const displayedOptions = useMemo(() => {
     const list = [...question.options];
-    let seed = Array.from(`${scenarioId}:${questionIndex}:${question.prompt}`).reduce((n,ch)=>(n*31+ch.charCodeAt(0))>>>0,7);
+    let seed = Array.from(`${scenarioId}:${questionIndex}:${question.prompt}:${optionShuffleSeed}`).reduce((n,ch)=>(n*31+ch.charCodeAt(0))>>>0,7);
     for(let i=list.length-1;i>0;i--){seed=(seed*1664525+1013904223)>>>0;const j=seed%(i+1);[list[i],list[j]]=[list[j],list[i]];}
     return list;
-  },[question,scenarioId,questionIndex]);
+  },[question,scenarioId,questionIndex,optionShuffleSeed]);
   const maxScore = scenario.questions.length * 10;
   const progressPct = Math.round((questionIndex / scenario.questions.length) * 100);
   const totalScore = history.reduce((sum, item) => sum + (item.score || 0), 0);
@@ -247,7 +248,7 @@ export default function App() {
   const notify = (message) => { setToast(message); window.setTimeout(() => setToast(''), 3200); };
   const go = (next) => { setPage(next); setShowMobileMenu(false); window.scrollTo({top:0,behavior:'smooth'}); };
   const resetSession = (id = scenarioId) => {
-    setScenarioId(id); setQuestionIndex(0); setDecisions([]); setDiscovered([]);
+    setScenarioId(id); setQuestionIndex(0); setOptionShuffleSeed(Math.floor(Math.random() * 0xFFFFFFFF)); setDecisions([]); setDiscovered([]);
     setActiveEvidence(null); setHypothesis(''); setFeedback(null); setSessionScore(0);
     setSaveState('idle'); setSaveMessage('');
   };
