@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { scenarios, difficulties } from './data/scenarios.js';
 import { extendedInterviewQuestions } from './data/interviewQuestions.js';
-import { advancedQuestions } from './data/advancedQuestions.js';
+import { advancedQuestions, behavioralProfileQuestions } from './data/advancedQuestions.js';
 import { questionBank } from './data/questionBank.js';
 import Scene3D from './components/Scene3D.jsx';
 import { supabaseConfigured, saveProgress, loadProgress, ensureAnonymousSession } from './lib/supabase.js';
@@ -40,6 +40,19 @@ function saveLocal(record) {
   localStorage.setItem('mindtrace-progress', JSON.stringify([record, ...old].slice(0, 30)));
 }
 function getLevel(rank) { return difficulties.find(d => d.rank === rank) || difficulties[0]; }
+function calculateProfile(decisions = []) {
+  const traits = ['planificacion','empatia','manipulacion','impulsividad','memoria'];
+  const sums = Object.fromEntries(traits.map(t => [t, decisions.reduce((n,d) => n + (d.trait === t ? Math.max(0, Number(d.score)||0) : 0), 0)]));
+  const counts = Object.fromEntries(traits.map(t => [t, decisions.filter(d => d.trait === t).length]));
+  const percentages = Object.fromEntries(traits.map(t => [t, counts[t] ? Math.round(sums[t] / (counts[t] * 10) * 100) : 0]));
+  const high = t => counts[t] > 0 && percentages[t] >= 70;
+  const low = t => counts[t] > 0 && percentages[t] < 40;
+  const medium = t => counts[t] > 0 && percentages[t] >= 40 && percentages[t] < 70;
+  if (high('planificacion') && low('empatia')) return { title:'Perfil Organizado / Psicopático', description:'Puntuación alta en planificación y baja en empatía dentro de esta simulación. No es un diagnóstico clínico ni una atribución sobre una persona real.', color:'#E61B2E', sums, counts, percentages };
+  if (high('impulsividad') && high('manipulacion')) return { title:'Perfil Reactivo / Manipulador', description:'Las respuestas se concentran en indicadores de reacción impulsiva e influencia interpersonal. Describe las decisiones de esta partida, no una personalidad real.', color:'#FFD700', sums, counts, percentages };
+  if (high('memoria') && medium('empatia')) return { title:'Perfil de Testigo Contaminado', description:'Patrón relacionado con memoria y una valoración intermedia de empatía. La contaminación debe comprobarse con fuentes y contexto.', color:'#00B4FF', sums, counts, percentages };
+  return { title:'Perfil No Concluyente', description:'Las respuestas no alcanzan los umbrales definidos para una categoría específica. Se requieren más decisiones etiquetadas y corroboración independiente.', color:'#94A3B8', sums, counts, percentages };
+}
 
 function BrainCircuitIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a3 3 0 0 0-5.7 1.2A3.5 3.5 0 0 0 4 11a3.5 3.5 0 0 0 2.3 6.1A3 3 0 0 0 12 19V4Zm0 0a3 3 0 0 1 5.7 1.2A3.5 3.5 0 0 1 20 11a3.5 3.5 0 0 1-2.3 6.1A3 3 0 0 1 12 19M7 8l2 2m-3 4 3-1m8-5-2 2m3 4-3-1M12 7v10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
 function ScaleIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17M6 6h12M4 6l-3 7h6L4 6Zm16 0-3 7h6l-3-7ZM8 21h8" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
@@ -201,7 +214,7 @@ export default function App() {
 
   const scenario = useMemo(() => {
     const base = scenarios.find(s => s.id === scenarioId) || scenarios[0];
-    const advanced = advancedQuestions[base.id] || base.questions;
+    const advanced = [...(advancedQuestions[base.id] || base.questions), ...(behavioralProfileQuestions[base.id] || [])];
     const interview = extendedInterviewQuestions[base.id] || [];
     // Cada nivel utiliza un bloque distinto: no se reciclan las preguntas al ascender.
     const levelQuestions = difficulty === 'Difícil'
@@ -226,6 +239,7 @@ export default function App() {
   const totalScore = history.reduce((sum, item) => sum + (item.score || 0), 0);
   const avgScore = history.length ? Math.round(totalScore / history.length) : 0;
   const currentRank = LEVELS.indexOf(difficulty) + 1;
+  const profileReport = calculateProfile(decisions);
 
   useEffect(() => {
     if (supabaseConfigured) loadProgress().then(setRemoteHistory).catch(() => {});
@@ -240,7 +254,7 @@ export default function App() {
   const startCase = (id) => { resetSession(id); go('case'); };
   const chooseOption = (option) => {
     if (feedback) return;
-    const record = { question: question.prompt, answer: option.text, score: option.score, feedback: option.feedback, principle: option.principle };
+    const record = { question: question.prompt, answer: option.text, score: option.score, feedback: option.feedback, principle: option.principle, trait: option.trait || null };
     setDecisions(prev => [...prev, record]);
     setSessionScore(prev => prev + option.score);
     setFeedback(option);
@@ -433,8 +447,18 @@ export default function App() {
         {page==='report' && <section className="page-content report-page">
           <div className="report-success"><div className="success-mark"><Award size={30}/></div><span className="eyebrow">FASE DE ENTREVISTA COMPLETADA</span><h1>Informe de análisis<span>.</span></h1><p>Tu resultado refleja la calidad de tus decisiones y la exploración del entorno, no la identificación de una persona culpable.</p></div>
           <div className="report-score-card"><div className="score-ring" style={{'--score':`${Math.min(100,Math.round(sessionScore/maxScore*90+Math.min(10,discovered.length*2.5)))}%`}}><div><strong>{Math.min(100,Math.round(sessionScore/maxScore*90+Math.min(10,discovered.length*2.5)))}</strong><span>DE 100</span></div></div><div className="score-summary"><span className="eyebrow">PUNTUACIÓN FINAL</span><h2>{sessionScore/maxScore>=0.8?'Razonamiento consistente':sessionScore/maxScore>=0.55?'Enfoque en desarrollo':'Requiere más contraste'}</h2><p>Has obtenido {sessionScore} de {maxScore} puntos en decisiones y explorado {discovered.length} de {scenario.scene.hotspots.length} puntos de la escena.</p><div className="score-tags"><span><Check size={14}/> Decisiones registradas</span><span><Search size={14}/> Evidencias revisadas</span></div></div></div>
-          <div className="report-grid"><div className="panel-card"><div className="panel-title"><div className="panel-icon"><ClipboardList size={18}/></div><div><span className="eyebrow">RESUMEN DE DECISIONES</span><h3>Retroalimentación</h3></div></div><div className="decision-review">{decisions.map((d,i)=><div className="decision-review-row" key={i}><span className={`decision-score ${d.score>=8?'high':d.score<=2?'low':'medium'}`}>{d.score}/10</span><div><strong>{d.principle}</strong><p>{d.feedback}</p></div></div>)}</div></div>
-            <div className="panel-card hypothesis-card"><div className="panel-title"><div className="panel-icon gold"><Network size={18}/></div><div><span className="eyebrow">SÍNTESIS CRIMINOLÓGICA</span><h3>Tu hipótesis provisional</h3></div></div><p>Redacta una explicación provisional, qué evidencia la apoya y qué información falta. Evita afirmar culpabilidad si los datos no la establecen.</p><textarea value={hypothesis} onChange={e=>setHypothesis(e.target.value)} placeholder="La evidencia disponible sugiere que… Sin embargo, aún es necesario verificar…" rows={6}/><div className="hypothesis-guidance"><strong>Antes de cerrar el caso, comprueba:</strong><ul><li>¿Separaste hechos de inferencias?</li><li>¿Consideraste al menos una explicación alternativa?</li><li>¿Identificaste qué evidencia falta?</li></ul></div></div></div>
+          <div className="report-grid">
+            <div className="panel-card"><div className="panel-title"><div className="panel-icon"><ClipboardList size={18}/></div><div><span className="eyebrow">RESUMEN DE DECISIONES</span><h3>Retroalimentación</h3></div></div><div className="decision-review">{decisions.map((d,i)=><div className="decision-review-row" key={i}><span className={`decision-score ${d.score>=8?'high':d.score<=2?'low':'medium'}`}>{d.score}/10</span><div><strong>{d.principle}</strong><p>{d.feedback}</p></div></div>)}</div></div>
+            <div className="report-right-column">
+              <section className="profile-report-card"><span className="eyebrow">MINDTRACE / PERFIL DE RESPUESTA</span><h3>Perfil psicológico y conductual</h3><strong className="profile-title" style={{color:profileReport.color}}>{profileReport.title}</strong><p>{profileReport.description}</p>
+                <div className="profile-hud-metric"><div><span>Nivel de Planificación</span><b>{profileReport.percentages.planificacion}%</b></div><div className="hud-bar-container"><i className="hud-bar-fill" style={{width:profileReport.percentages.planificacion+'%','--hud-color':'#00B4FF'}}/></div></div>
+                <div className="profile-hud-metric"><div><span>Nivel de Empatía</span><b>{profileReport.percentages.empatia}%</b></div><div className="hud-bar-container"><i className="hud-bar-fill" style={{width:profileReport.percentages.empatia+'%','--hud-color':'#E61B2E'}}/></div></div>
+                <div className="profile-hud-metric"><div><span>Control de Impulsos</span><b>{100-profileReport.percentages.impulsividad}%</b></div><div className="hud-bar-container"><i className="hud-bar-fill" style={{width:(100-profileReport.percentages.impulsividad)+'%','--hud-color':'#FFD700'}}/></div></div>
+                <small className="profile-note">Porcentajes normalizados según respuestas etiquetadas; el control de impulsos se expresa como complemento de impulsividad.</small>
+              </section>
+              <div className="panel-card hypothesis-card"><div className="panel-title"><div className="panel-icon gold"><Network size={18}/></div><div><span className="eyebrow">SÍNTESIS CRIMINOLÓGICA</span><h3>Tu hipótesis provisional</h3></div></div><p>Redacta una explicación provisional, qué evidencia la apoya y qué información falta. Evita afirmar culpabilidad si los datos no la establecen.</p><textarea value={hypothesis} onChange={e=>setHypothesis(e.target.value)} placeholder="La evidencia disponible sugiere que… Sin embargo, aún es necesario verificar…" rows={6}/><div className="hypothesis-guidance"><strong>Antes de cerrar el caso, comprueba:</strong><ul><li>¿Separaste hechos de inferencias?</li><li>¿Consideraste al menos una explicación alternativa?</li><li>¿Identificaste qué evidencia falta?</li></ul></div></div>
+            </div>
+          </div>
           <div className={`save-status ${saveState}`}><div>{saveState==='saving'?<Activity size={18}/>:saveState==='saved'?<Check size={18}/>:<ShieldCheck size={18}/>}</div><p><strong>{saveState==='saving'?'Guardando progreso…':saveState==='saved'?'Progreso sincronizado':saveState==='error'?'Guardado local con incidencia':'Progreso listo para guardar'}</strong><span>{saveMessage||'Al finalizar, el resultado se guarda en este dispositivo y se sincroniza con Supabase si está configurado.'}</span></p></div>
           <div className="level-advance-card">
             <div><span className="eyebrow">PROGRESIÓN DE DIFICULTAD</span><strong>{currentRank < LEVELS.length ? `Siguiente nivel: ${LEVELS[currentRank]}` : '¡Has alcanzado el nivel Experto!'}</strong><p>{currentRank < LEVELS.length ? 'Has completado este nivel. Continúa para iniciar el mismo expediente con un reto de mayor dificultad.' : 'Has completado todos los niveles de dificultad disponibles.'}</p></div>
