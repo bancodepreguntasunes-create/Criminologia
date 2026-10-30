@@ -3,7 +3,7 @@
 const questionImagePaths = ["/images/23-vulnerable-person-interview-room.jpg","/images/17-digital-evidence-chain-custody.jpg","/images/12-statement-discrepancy.jpg","/images/02-crime-pattern-comparison.jpg","/images/24-physical-evidence-corroboration.jpg","/images/01-criminogenesis-planning.jpg","/images/05-disabled-alarm-escape-route.jpg","/images/06-disrupted-crime-scene.jpg","/images/18-principle-of-legality.jpg","/images/16-detention-not-guilt.jpg","/images/03-social-risk-factors.jpg","/images/04-multifactorial-analysis.jpg","/images/07-social-norm-vs-criminal-law.jpg","/images/08-community-social-rejection.jpg","/images/13-informal-community-control.jpg","/images/20-fragmented-bone-remains.jpg","/images/21-biological-profile-skull.jpg","/images/22-perimortem-vs-taphonomic-fracture.jpg","/images/19-individual-participation-footprints.jpg","/images/15-copp-procedural-guarantees.jpg"];
 let questionImageIndex = 0;
 const q = (prompt, options) => ({ prompt, options, image: questionImagePaths[questionImageIndex++] });
-const o = (text, score, principle, feedback) => ({ text, score, principle, feedback });
+const o = (text, score, principle, feedback, trait = null) => ({ text, score, principle, feedback, ...(trait ? { trait } : {}) });
 
 export const advancedQuestions = {
   testimonial: [
@@ -134,4 +134,96 @@ export const advancedQuestions = {
       o('El contratista es responsable porque mencionó una instrucción verbal.', 2, 'Testimonio no corroborado', 'La declaración es una línea de investigación, no una atribución suficiente por sí misma.')
     ])
   ]
+};
+
+/* Cuatro preguntas situacionales adicionales por expediente para el nivel Muy difícil. */
+export const behavioralProfileQuestions = {
+ testimonial: [
+ q('Una persona cambia su relato tras conocer detalles publicados. ¿Qué harías?', [
+ o('Separar lo recordado antes y después de la exposición, documentar fuentes y contrastar con evidencia independiente.',10,'Control de contaminación','Evalúa la fuente del recuerdo sin presumir engaño.','memoria'),
+ o('Afirmar que cambió el relato porque oculta su participación.',1,'Inferencia sin base','Un cambio puede tener múltiples explicaciones.','manipulacion'),
+ o('Repetirle los detalles publicados para comprobar si los recuerda.',2,'Contaminación inducida','Introduce información adicional.','memoria'),
+ o('Descartar la primera versión por ser menos detallada.',3,'Pérdida de contexto','Deben conservarse todas las versiones.','memoria')]),
+ q('Hay indicios de preparación, pero existen explicaciones alternativas. ¿Qué análisis procede?', [
+ o('Reconstruir secuencia, recursos, oportunidades y decisiones verificables, contrastando hipótesis alternativas.',10,'Planificación conductual','Se apoya en hechos corroborados, no en etiquetas personales.','planificacion'),
+ o('Concluir que es calculador por la complejidad del hecho.',1,'Rasgo inferido','La complejidad no acredita un rasgo estable.','planificacion'),
+ o('Preguntar si diseñó todo desde el principio.',2,'Pregunta sugestiva','Presupone preparación.','planificacion'),
+ o('Tomar la complejidad como prueba definitiva de premeditación.',3,'Interpretación limitada','Se requiere corroboración contextual.','planificacion')]),
+ q('La persona responde precipitadamente ante preguntas inesperadas. ¿Cómo valoras esa conducta?', [
+ o('Registrar secuencia y contexto, y revisar el patrón en varias respuestas sin inferir un rasgo por un episodio.',10,'Evaluación contextual','Evita diagnosticar a partir de una reacción aislada.','impulsividad'),
+ o('Clasificarla como impulsiva porque elevó la voz.',1,'Inferencia no válida','El tono no permite diagnosticar impulsividad.','impulsividad'),
+ o('Provocarla deliberadamente para observar si pierde el control.',2,'Entrevista coercitiva','La provocación contamina la interacción.','impulsividad'),
+ o('Asumir que una respuesta rápida demuestra sinceridad.',3,'Inferencia limitada','La rapidez no determina veracidad.','memoria')]),
+ q('Describe con detalle el daño sufrido por la víctima, pero no se conoce su información previa. ¿Qué concluyes?', [
+ o('Distinguir la comprensión expresada de la empatía como rasgo y verificar qué información conocía previamente.',10,'Comprensión y empatía','No confunde discurso con rasgo psicológico estable.','empatia'),
+ o('Concluir que carece de empatía porque no expresa emoción visible.',1,'Lectura emocional','La expresión externa no mide empatía.','empatia'),
+ o('Preguntar si realmente le importó la víctima.',2,'Pregunta cargada','Sugiere una respuesta y presupone una valoración moral.','empatia'),
+ o('Afirmar que manipula porque utiliza palabras precisas.',3,'Inferencia limitada','La precisión verbal no demuestra manipulación.','manipulacion')])
+ ],
+ corporate: [
+ q('Una empleada cambia su explicación tras revisar documentos internos. ¿Qué permite estudiar influencia externa?', [
+ o('Comparar versiones fechadas, accesos a documentos y comunicaciones, preservando la secuencia de exposición.',10,'Influencia y memoria','Diferencia actualización del recuerdo y presión externa.','manipulacion'),
+ o('Concluir que fue manipulada porque cambió su explicación.',1,'Inferencia sin base','El cambio no prueba influencia.','manipulacion'),
+ o('Preguntar quién le ordenó mentir.',2,'Pregunta sugestiva','Presupone una orden y una mentira.','manipulacion'),
+ o('Ignorar la primera versión y conservar solo la última.',3,'Pérdida de trazabilidad','Deben conservarse todas las versiones.','memoria')]),
+ q('Una operación compleja requirió varias autorizaciones. ¿Cómo evalúas planificación?', [
+ o('Mapear decisiones, competencias, tiempos y registros auditables para identificar acciones corroboradas.',10,'Planificación organizacional','Distingue diseño del proceso y responsabilidad individual.','planificacion'),
+ o('Atribuir la planificación a la persona de mayor rango.',1,'Sesgo jerárquico','El cargo no prueba intervención.','planificacion'),
+ o('Preguntar quién organizó el fraude.',2,'Presunción de delito','Presupone que el hecho está establecido.','manipulacion'),
+ o('Tomar una demora como prueba de reacción impulsiva.',3,'Inferencia limitada','Una demora admite explicaciones distintas.','impulsividad')]),
+ q('Un entrevistado responde antes de escuchar la pregunta completa. ¿Qué haces?', [
+ o('Formular una pregunta a la vez, registrar el contexto y valorar el patrón en distintas respuestas.',10,'Control de entrevista','Evita convertir una conducta puntual en diagnóstico.','impulsividad'),
+ o('Concluir que tiene escaso control de impulsos.',1,'Etiqueta prematura','Se requiere contexto y evaluación válida.','impulsividad'),
+ o('Aumentar la presión para provocar una reacción.',2,'Presión indebida','La presión reduce la fiabilidad.','impulsividad'),
+ o('Interpretar la rapidez como prueba de conocimiento.',3,'Inferencia limitada','La velocidad no acredita conocimiento.','memoria')]),
+ q('La organización afirma que compensó a los afectados. ¿Cómo exploras empatía?', [
+ o('Examinar qué información sobre el impacto recibió cada responsable y qué medidas documentadas se adoptaron.',10,'Consideración del daño','Evalúa conocimiento y decisiones observables.','empatia'),
+ o('Considerar que pagar una compensación demuestra empatía alta.',1,'Conclusión excesiva','Una acción no establece un rasgo psicológico.','empatia'),
+ o('Preguntar quién carecía de sentimientos hacia los afectados.',2,'Pregunta sesgada','Introduce una etiqueta emocional.','empatia'),
+ o('Afirmar que toda decisión económica fue manipuladora.',3,'Generalización','Debe analizarse contexto y corroboración.','manipulacion')])
+ ],
+ social: [
+ q('Un grupo cambia su versión después de conversar entre sí. ¿Qué procedimiento priorizas?', [
+ o('Entrevistar por separado, documentar contactos y distinguir recuerdos propios de información compartida.',10,'Memoria e influencia grupal','Explora contaminación sin presumir coordinación ilícita.','memoria'),
+ o('Concluir que todos acordaron mentir.',1,'Inferencia sin base','La coincidencia no prueba un acuerdo.','manipulacion'),
+ o('Preguntar quién convenció al resto para ocultar los hechos.',2,'Pregunta sugestiva','Presupone ocultamiento e influencia.','manipulacion'),
+ o('Tomar la versión más repetida como la más fiable.',3,'Falsa corroboración','La repetición puede proceder de una fuente común.','memoria')]),
+ q('El daño ocurrió en un lapso breve y hay indicios de preparación. ¿Cómo valoras planificación?', [
+ o('Diferenciar preparación comprobada, oportunidad, secuencia y decisiones espontáneas mediante fuentes independientes.',10,'Planificación del evento','Evita equiparar rapidez con impulsividad o premeditación.','planificacion'),
+ o('Clasificar el hecho como impulsivo porque duró pocos minutos.',1,'Inferencia temporal','La duración no determina el proceso de decisión.','impulsividad'),
+ o('Afirmar que hubo planificación por la presencia de varias personas.',2,'Coordinación no probada','La presencia no demuestra acuerdo previo.','planificacion'),
+ o('Preguntar quién diseñó el incidente.',3,'Pregunta sugestiva','Presupone un diseño común.','planificacion')]),
+ q('Un participante reacciona con enojo al precisar una hora. ¿Cómo interpretas esa reacción?', [
+ o('Registrar la reacción y continuar con preguntas neutrales, verificando horarios con fuentes externas.',10,'Regulación conductual','No confunde emoción observable con impulsividad o falsedad.','impulsividad'),
+ o('Concluir que el enojo confirma culpabilidad.',1,'Inferencia no válida','La emoción no demuestra participación.','impulsividad'),
+ o('Provocar una discusión para observar su autocontrol.',2,'Entrevista provocativa','Aumenta sesgo y reduce fiabilidad.','impulsividad'),
+ o('Interpretar la falta de llanto como ausencia de empatía.',3,'Lectura emocional','La expresión no mide empatía.','empatia')]),
+ q('Una persona afirma que ayudó a una víctima, pero no hay testigos directos. ¿Qué evalúas?', [
+ o('Separar conducta afirmada, conocimiento del daño y corroboración independiente antes de valorar la hipótesis.',10,'Empatía y corroboración','No atribuye un rasgo a partir de una declaración.','empatia'),
+ o('Considerar que el relato prueba empatía elevada.',1,'Conclusión excesiva','La declaración no establece un rasgo estable.','empatia'),
+ o('Afirmar que inventó la ayuda para manipular.',2,'Inferencia sin base','La hipótesis requiere evidencia.','manipulacion'),
+ o('Preguntar por qué necesita parecer una buena persona.',3,'Pregunta cargada','Atribuye motivación sin base.','manipulacion')])
+ ],
+ ecological: [
+ q('Un operador cambia varias veces su explicación sobre una alarma ambiental. ¿Cómo examinas memoria?', [
+ o('Conservar cada versión y contrastarla con bitácoras, sensores y exposición previa a informes.',10,'Memoria contextual','Evalúa fuentes sin presumir engaño.','memoria'),
+ o('Concluir que miente porque no recuerda el minuto exacto.',1,'Inferencia sin base','La precisión temporal no mide veracidad.','memoria'),
+ o('Mostrarle el informe completo antes de pedirle que recuerde.',2,'Contaminación del recuerdo','La información previa puede modificar el recuerdo.','memoria'),
+ o('Descartar la primera versión por ser menos detallada.',3,'Sesgo retrospectivo','El detalle posterior puede proceder de fuentes externas.','memoria')]),
+ q('La alteración del sistema sigue una secuencia técnica compleja. ¿Qué sustenta planificación?', [
+ o('Correlacionar cambios, permisos, turnos y registros con cronología y explicaciones técnicas alternativas.',10,'Planificación operacional','La secuencia verificable evita inferir personalidad.','planificacion'),
+ o('Afirmar que el operador es calculador por conocer el sistema.',1,'Rasgo inferido','El conocimiento técnico no establece perfil psicológico.','planificacion'),
+ o('Preguntar quién planeó el daño deliberado.',2,'Presunción de intención','La pregunta presupone intención.','planificacion'),
+ o('Concluir impulsividad por una alarma no atendida.',3,'Inferencia limitada','Puede haber fallos de procedimiento o tecnología.','impulsividad')]),
+ q('Un responsable toma una decisión urgente durante una alarma. ¿Cómo valoras control de impulsos?', [
+ o('Reconstruir información disponible, protocolos, tiempo de reacción y alternativas reales en ese momento.',10,'Decisión bajo presión','Evalúa conducta situada sin convertirla en rasgo estable.','impulsividad'),
+ o('Clasificarlo como impulsivo porque decidió rápido.',1,'Inferencia temporal','La rapidez puede ser adecuada en una emergencia.','impulsividad'),
+ o('Preguntar por qué actuó sin pensar.',2,'Pregunta cargada','Presupone ausencia de deliberación.','impulsividad'),
+ o('Asumir que una decisión correcta demuestra empatía alta.',3,'Inferencia limitada','La calidad técnica no mide empatía.','empatia')]),
+ q('La empresa comunica que no hubo impacto antes de recibir resultados. ¿Qué exploras?', [
+ o('Identificar qué datos conocían, cuándo los recibieron y cómo justificaron cada comunicación.',10,'Conocimiento del impacto','Estudia conocimiento y comunicación mediante hechos.','empatia'),
+ o('Concluir que la empresa carece de empatía.',1,'Etiqueta no sustentada','Una comunicación no basta para atribuir un rasgo.','empatia'),
+ o('Afirmar manipulación porque el mensaje fue tranquilizador.',2,'Inferencia sin base','Debe verificarse intención y contexto.','manipulacion'),
+ o('Preguntar quién decidió ocultar la contaminación.',3,'Pregunta sugestiva','Presupone ocultamiento.','manipulacion')])
+ ]
 };
