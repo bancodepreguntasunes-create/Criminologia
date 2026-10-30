@@ -10,7 +10,6 @@ import { extendedInterviewQuestions } from './data/interviewQuestions.js';
 import { advancedQuestions } from './data/advancedQuestions.js';
 import { questionBank } from './data/questionBank.js';
 import Scene3D from './components/Scene3D.jsx';
-import BrokenWindowsPsychopathyModule from './components/BrokenWindowsPsychopathyModule.jsx';
 import { supabaseConfigured, saveProgress, loadProgress, ensureAnonymousSession } from './lib/supabase.js';
 
 const iconMap = {
@@ -292,7 +291,6 @@ export default function App() {
           <button className={`nav-item ${page==='home'?'active':''}`} onClick={()=>go('home')}><Compass size={18}/><span>Panel principal</span></button>
           <button className={`nav-item ${page==='scenarios'?'active':''}`} onClick={()=>go('scenarios')}><ClipboardList size={18}/><span>Casos de estudio</span><span className="nav-count">04</span></button>
           <button className={`nav-item ${page==='questionBank'?'active':''}`} onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}><BookOpen size={18}/><span>Banco de preguntas</span><span className="nav-count">{questionBank.length}</span></button>
-          <button className={`nav-item ${page==='bwModule'?'active':''}`} onClick={()=>go('bwModule')}><BrainCircuitIcon/><span>Ventanas rotas & psicopatía</span></button>
           <button className={`nav-item ${page==='progress'?'active':''}`} onClick={()=>go('progress')}><Activity size={18}/><span>Mi progreso</span></button>
         </nav>
         <div className="sidebar-lab-card">
@@ -445,7 +443,6 @@ export default function App() {
           <div className="report-actions"><button className="button-secondary" onClick={()=>go('case')}><ArrowLeft size={16}/> Revisar expediente</button><button className="button-primary" onClick={finishReport} disabled={saveState==='saving'||saveState==='saved'}>{saveState==='saved'?'Guardado':saveState==='saving'?'Guardando…':'Guardar informe'} <Check size={16}/></button><button className="text-button" onClick={()=>{resetSession(scenarioId);go('case')}}><RotateCcw size={15}/> Repetir caso</button></div>
         </section>}
 
-        {page==='bwModule' && <BrokenWindowsPsychopathyModule onBack={()=>go('home')}/>}
 
         {page==='progress' && <section className="page-content">
           <div className="page-heading"><div><span className="eyebrow">REGISTRO DE APRENDIZAJE</span><h1>Mi progreso<span>.</span></h1><p>Consulta tus partidas, puntuaciones y habilidades desarrolladas.</p></div><div className="heading-counter"><Award size={28}/><span>PERFIL<br/>INVESTIGADOR</span></div></div>
