@@ -584,3 +584,19 @@ button,input,textarea,select{max-width:100%}
 .mbti-restart-btn:hover{background:rgba(0,180,255,.22);box-shadow:0 0 18px rgba(0,180,255,.2)}
 @media(max-width:650px){.mbti-container{width:min(100% - 28px,1050px);padding-top:24px}.mbti-heading h1{align-items:flex-start}.mbti-card{padding:19px}.mbti-option-btn{align-items:flex-start;gap:12px;padding:15px;min-height:76px;font-size:13px}.mbti-option-index{flex-basis:31px;height:31px}.mbti-result{padding:22px 15px}.mbti-progress-row{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.mbti-progress-track span,.mbti-option-btn,.mbti-option-arrow,.mbti-restart-btn{transition:none}}
+
+.personality-scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin:24px 0}
+.personality-scale button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:94px;padding:12px 8px;border:1px solid rgba(134,173,198,.25);border-radius:11px;background:#071522;color:#dceaf4;text-align:center;cursor:pointer}
+.personality-scale button b{display:grid;place-items:center;width:30px;height:30px;border:1px solid rgba(0,180,255,.4);border-radius:50%;color:#72dcff;font:700 13px 'DM Mono',monospace}
+.personality-scale button span{font-size:10px;line-height:1.35;color:#aebfce}
+.personality-scale button:hover,.personality-scale button.selected{border-color:#00bfff;background:rgba(0,150,210,.16);box-shadow:0 0 16px rgba(0,180,255,.12)}
+.personality-controls{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+.personality-controls button:disabled{opacity:.35;cursor:not-allowed}
+.personality-results>h2{margin-bottom:25px}
+.personality-trait{padding:17px 0;border-top:1px solid rgba(0,180,255,.16)}
+.personality-trait>div:first-child{display:flex;justify-content:space-between;gap:12px;color:#e8f4fa;font-size:13px}
+.personality-trait>div:first-child b{color:#69d9ff;font:600 12px 'DM Mono',monospace}
+.personality-bar{height:7px;margin:10px 0;border-radius:20px;background:#071421;overflow:hidden}
+.personality-bar span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#00b4ff,#e61b2e)}
+.personality-trait p{margin:0;color:#aebfce;font-size:12px;line-height:1.65}
+@media(max-width:650px){.personality-scale{grid-template-columns:1fr;gap:7px}.personality-scale button{min-height:58px;flex-direction:row;justify-content:flex-start;text-align:left;padding:10px 13px}.personality-scale button span{flex:1}.personality-controls button{flex:1}}
