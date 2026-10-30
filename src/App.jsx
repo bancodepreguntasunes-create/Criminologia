@@ -42,18 +42,37 @@ function saveLocal(record) {
 function getLevel(rank) { return difficulties.find(d => d.rank === rank) || difficulties[0]; }
 function calculateProfile(decisions = []) {
   const traits = ['planificacion','empatia','manipulacion','impulsividad','memoria'];
-  const sums = Object.fromEntries(traits.map(t => [t, decisions.reduce((n,d) => n + (d.trait === t ? Math.max(0, Number(d.score)||0) : 0), 0)]));
-  const counts = Object.fromEntries(traits.map(t => [t, decisions.filter(d => d.trait === t).length]));
-  const percentages = Object.fromEntries(traits.map(t => [t, counts[t] ? Math.round(sums[t] / (counts[t] * 10) * 100) : 0]));
-  const high = t => counts[t] > 0 && percentages[t] >= 70;
-  const low = t => counts[t] > 0 && percentages[t] < 40;
-  const medium = t => counts[t] > 0 && percentages[t] >= 40 && percentages[t] < 70;
-  if (high('planificacion') && low('empatia')) return { title:'Perfil Organizado / Psicopático', description:'Puntuación alta en planificación y baja en empatía dentro de esta simulación. No es un diagnóstico clínico ni una atribución sobre una persona real.', color:'#E61B2E', sums, counts, percentages };
-  if (high('impulsividad') && high('manipulacion')) return { title:'Perfil Reactivo / Manipulador', description:'Las respuestas se concentran en indicadores de reacción impulsiva e influencia interpersonal. Describe las decisiones de esta partida, no una personalidad real.', color:'#FFD700', sums, counts, percentages };
-  if (high('memoria') && medium('empatia')) return { title:'Perfil de Testigo Contaminado', description:'Patrón relacionado con memoria y una valoración intermedia de empatía. La contaminación debe comprobarse con fuentes y contexto.', color:'#00B4FF', sums, counts, percentages };
-  return { title:'Perfil No Concluyente', description:'Las respuestas no alcanzan los umbrales definidos para una categoría específica. Se requieren más decisiones etiquetadas y corroboración independiente.', color:'#94A3B8', sums, counts, percentages };
-}
+  const sums = Object.fromEntries(traits.map(trait => [
+    trait,
+    decisions.reduce((total, decision) =>
+      total + (decision.trait === trait ? Math.max(0, Number(decision.score) || 0) : 0), 0)
+  ]));
+  const counts = Object.fromEntries(traits.map(trait => [
+    trait, decisions.filter(decision => decision.trait === trait).length
+  ]));
+  const percentages = Object.fromEntries(traits.map(trait => [
+    trait, counts[trait] ? Math.round(sums[trait] / (counts[trait] * 10) * 100) : 0
+  ]));
 
+  // El perfil se calcula comparando los indicadores etiquetados que aparecieron
+  // en las respuestas elegidas; no representa un diagnóstico de una persona.
+  const profileScores = {
+    Organizado: counts.planificacion ? percentages.planificacion : -1,
+    Reactivo: counts.impulsividad ? percentages.impulsividad : -1,
+    Manipulador: counts.manipulacion ? percentages.manipulacion : -1
+  };
+  const ranked = Object.entries(profileScores).sort((a, b) => b[1] - a[1]);
+  const hasEvidence = ranked[0][1] >= 60;
+  const title = hasEvidence ? ranked[0][0] : 'No concluyente';
+  const descriptions = {
+    Organizado: 'En esta partida predominan las respuestas asociadas a planificación y estructuración. Es un indicador del desempeño en la simulación, no un rasgo estable.',
+    Reactivo: 'En esta partida predominan las respuestas asociadas a impulsividad o reacción inmediata. Es un indicador del desempeño en la simulación, no un diagnóstico.',
+    Manipulador: 'En esta partida predominan las respuestas asociadas a influencia o manipulación interpersonal. Es un indicador del desempeño en la simulación, no una atribución sobre una persona real.',
+    'No concluyente': 'Las respuestas no muestran un predominio suficiente entre los indicadores Organizado, Reactivo o Manipulador.'
+  };
+  const colors = { Organizado:'#00B4FF', Reactivo:'#FFD700', Manipulador:'#E61B2E', 'No concluyente':'#94A3B8' };
+  return { title, description: descriptions[title], color: colors[title], sums, counts, percentages, profileScores };
+}
 function BrainCircuitIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a3 3 0 0 0-5.7 1.2A3.5 3.5 0 0 0 4 11a3.5 3.5 0 0 0 2.3 6.1A3 3 0 0 0 12 19V4Zm0 0a3 3 0 0 1 5.7 1.2A3.5 3.5 0 0 1 20 11a3.5 3.5 0 0 1-2.3 6.1A3 3 0 0 1 12 19M7 8l2 2m-3 4 3-1m8-5-2 2m3 4-3-1M12 7v10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
 function ScaleIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17M6 6h12M4 6l-3 7h6L4 6Zm16 0-3 7h6l-3-7ZM8 21h8" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
 function ScanIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-4 0-7 3-7 7v4m3-8c-1 1-1 2-1 4v4m5-8c2 1 3 3 3 5v4m-6-9v7c0 3-1 5-3 6m6-11v7c0 2 1 3 2 4m-6-5c0 2-1 4-2 5m8-5c0 2 1 3 2 4M12 2c5 0 9 4 9 9v2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>}
@@ -255,7 +274,7 @@ export default function App() {
   const startCase = (id) => { resetSession(id); go('case'); };
   const chooseOption = (option) => {
     if (feedback) return;
-    const record = { question: question.prompt, answer: option.text, score: option.score, feedback: option.feedback, principle: option.principle, trait: option.trait || null };
+    const { trait = null } = option;\n    const record = { question: question.prompt, answer: option.text, score: option.score, feedback: option.feedback, principle: option.principle, trait };
     setDecisions(prev => [...prev, record]);
     setSessionScore(prev => prev + option.score);
     setFeedback(option);
