@@ -359,7 +359,7 @@ export default function App() {
             <nav className="landing-nav">
               <button className="active" onClick={()=>go('home')}>INICIO</button>
               <button onClick={()=>go('scenarios')}>CASOS</button>
-              <button onClick={()=>go('bwModule')}>ANÁLISIS CONDUCTUAL</button>
+              <button className={page==='mbti'?'active':''} onClick={()=>go('mbti')}>TEST MBTI</button>
               <button onClick={()=>{setBankIndex(0);setBankAnswer(null);go('questionBank')}}>BANCO DE PREGUNTAS</button>
               <button onClick={()=>go('scene')}>SIMULACIÓN</button>
               <button onClick={()=>setShowGuide(true)}>RECURSOS</button>
