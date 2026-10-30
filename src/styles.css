@@ -550,3 +550,37 @@ button,input,textarea,select{max-width:100%}
 .profile-note{display:block;margin-top:16px;color:#8299a9;font-size:9px;line-height:1.6}
 @media(max-width:900px){.report-grid{grid-template-columns:minmax(0,1fr)}.report-right-column{grid-row:auto}}
 @media(prefers-reduced-motion:reduce){.hud-bar-fill{transition:none}}
+
+
+/* Módulo independiente: Test de Perfil MBTI Forense */
+.mbti-container{width:min(100% - 48px,1050px);margin:0 auto;padding:clamp(26px,4vw,48px) 0 64px;color:#eaf4fb}
+.mbti-heading{margin-bottom:24px}
+.mbti-heading>.eyebrow{color:#65d9ff;font:600 10px 'DM Mono',monospace;letter-spacing:.16em}
+.mbti-heading h1{display:flex;align-items:center;gap:13px;margin:12px 0;color:#f3f8fc;font:800 clamp(25px,3.6vw,38px) Manrope,sans-serif;line-height:1.2}
+.mbti-heading h1 svg{flex:0 0 auto;color:#00B4FF}
+.mbti-heading p{max-width:720px;margin:0;color:#aebfce;font-size:14px;line-height:1.7}
+.mbti-card{padding:clamp(20px,4vw,42px);border:1px solid rgba(0,180,255,.25);border-radius:18px;background:rgba(15,24,35,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.035)}
+.mbti-progress-row{display:flex;justify-content:space-between;gap:12px;color:#8fa8ba;font:600 10px 'DM Mono',monospace;letter-spacing:.1em}
+.mbti-progress-track{height:5px;margin:12px 0 30px;overflow:hidden;border-radius:20px;background:#071421}
+.mbti-progress-track span{display:block;height:100%;border-radius:20px;background:#00B4FF;box-shadow:0 0 12px rgba(0,180,255,.75);transition:width .25s ease}
+.mbti-kicker{display:block;color:#62d5ff;font:600 10px 'DM Mono',monospace;letter-spacing:.15em}
+.mbti-card h2{margin:12px 0 24px;color:#f1f6fb;font:700 clamp(20px,2.6vw,28px) Manrope,sans-serif;line-height:1.45}
+.mbti-options{display:grid;gap:13px}
+.mbti-option-btn{display:flex;align-items:center;gap:16px;width:100%;min-height:84px;padding:18px 20px;border:1px solid rgba(134,173,198,.23);border-radius:12px;background:rgba(5,17,29,.78);color:#e7f0f7;text-align:left;font:500 14px/1.65 Manrope,sans-serif;cursor:pointer;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease,transform .2s ease}
+.mbti-option-btn:hover,.mbti-option-btn:focus-visible{border-color:#00B4FF;background:rgba(0,125,185,.15);box-shadow:0 0 0 1px rgba(0,180,255,.28),0 0 22px rgba(0,180,255,.2);outline:none;transform:translateY(-1px)}
+.mbti-option-index{display:grid;place-items:center;flex:0 0 36px;height:36px;border:1px solid rgba(0,180,255,.35);border-radius:9px;background:rgba(0,180,255,.1);color:#6cddff;font:700 13px 'DM Mono',monospace}
+.mbti-option-btn>span:nth-child(2){flex:1}
+.mbti-option-arrow{flex:0 0 auto;color:#5b829b;transition:color .2s ease,transform .2s ease}
+.mbti-option-btn:hover .mbti-option-arrow{color:#00B4FF;transform:translateX(3px)}
+.mbti-footnote{margin:20px 0 0;color:#8fa5b6;font-size:11px;line-height:1.65}
+.mbti-result{display:flex;flex-direction:column;align-items:center;padding:clamp(20px,4vw,38px);border:4px solid;border-radius:16px;background:linear-gradient(145deg,rgba(8,24,38,.96),rgba(5,12,22,.98));text-align:center;box-shadow:0 0 28px color-mix(in srgb,var(--mbti-accent) 18%,transparent),inset 0 0 28px rgba(0,180,255,.035)}
+.mbti-result-icon{display:grid;place-items:center;width:66px;height:66px;margin:22px 0 12px;border:1px solid;border-radius:50%;background:rgba(0,180,255,.06)}
+.mbti-result-code{font:800 clamp(48px,9vw,76px)/1 'DM Mono',monospace;letter-spacing:.08em;text-shadow:0 0 22px currentColor}
+.mbti-result h2{margin:15px 0 9px;font-size:clamp(22px,3vw,30px)}
+.mbti-result>p{max-width:680px;margin:0;color:#bdcbd7;font-size:14px;line-height:1.8}
+.mbti-result-note{display:flex;align-items:flex-start;gap:10px;max-width:720px;margin:24px 0;padding:14px 16px;border:1px solid rgba(148,163,184,.22);border-radius:10px;background:rgba(148,163,184,.07);color:#aebdca;text-align:left;font-size:11px;line-height:1.65}
+.mbti-result-note svg{flex:0 0 auto;margin-top:1px;color:#7fcfff}
+.mbti-restart-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 22px;border:1px solid rgba(0,180,255,.55);border-radius:9px;background:rgba(0,180,255,.12);color:#dff7ff;font:700 12px Manrope,sans-serif;cursor:pointer;transition:background .2s ease,box-shadow .2s ease}
+.mbti-restart-btn:hover{background:rgba(0,180,255,.22);box-shadow:0 0 18px rgba(0,180,255,.2)}
+@media(max-width:650px){.mbti-container{width:min(100% - 28px,1050px);padding-top:24px}.mbti-heading h1{align-items:flex-start}.mbti-card{padding:19px}.mbti-option-btn{align-items:flex-start;gap:12px;padding:15px;min-height:76px;font-size:13px}.mbti-option-index{flex-basis:31px;height:31px}.mbti-result{padding:22px 15px}.mbti-progress-row{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.mbti-progress-track span,.mbti-option-btn,.mbti-option-arrow,.mbti-restart-btn{transition:none}}
