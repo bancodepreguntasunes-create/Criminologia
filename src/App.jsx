@@ -274,7 +274,8 @@ export default function App() {
   const startCase = (id) => { resetSession(id); go('case'); };
   const chooseOption = (option) => {
     if (feedback) return;
-    const { trait = null } = option;\n    const record = { question: question.prompt, answer: option.text, score: option.score, feedback: option.feedback, principle: option.principle, trait };
+    const { trait = null } = option;
+    const record = { question: question.prompt, answer: option.text, score: option.score, feedback: option.feedback, principle: option.principle, trait };
     setDecisions(prev => [...prev, record]);
     setSessionScore(prev => prev + option.score);
     setFeedback(option);
