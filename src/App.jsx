@@ -6,6 +6,7 @@ import {
   Search, ShieldCheck, Sparkles, Target, Users, Volume2, VolumeX, X, Zap
 } from 'lucide-react';
 import { scenarios, difficulties } from './data/scenarios.js';
+import { extendedInterviewQuestions } from './data/interviewQuestions.js';
 import { advancedQuestions } from './data/advancedQuestions.js';
 import { questionBank } from './data/questionBank.js';
 import Scene3D from './components/Scene3D.jsx';
@@ -201,8 +202,18 @@ export default function App() {
 
   const scenario = useMemo(() => {
     const base = scenarios.find(s => s.id === scenarioId) || scenarios[0];
-    return { ...base, questions: advancedQuestions[base.id] || base.questions };
-  }, [scenarioId]);
+    const advanced = advancedQuestions[base.id] || base.questions;
+    const interview = extendedInterviewQuestions[base.id] || [];
+    // Cada nivel utiliza un bloque distinto: no se reciclan las preguntas al ascender.
+    const levelQuestions = difficulty === 'Difícil'
+      ? base.questions
+      : difficulty === 'Muy difícil'
+        ? advanced
+        : difficulty === 'Avanzado'
+          ? interview.slice(0, 6)
+          : interview.slice(6, 12);
+    return { ...base, questions: levelQuestions.length ? levelQuestions : advanced };
+  }, [scenarioId, difficulty]);
   const question = scenario.questions[questionIndex];
   // Orden pseudoaleatorio estable por pregunta: evita que la opción correcta ocupe siempre la misma posición.
   const displayedOptions = useMemo(() => {
